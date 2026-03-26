@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四喜直播话术库</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #e8224e;
+    --primary-light: #ff6b81;
+    --primary-bg: #fff0f3;
+    --secondary: #1d1d1f;
+    --gray: #6e6e73;
+    --light-gray: #f5f5f7;
+    --border: #d2d2d7;
+    --white: #ffffff;
+    --success: #30d158;
+    --blue: #0071e3;
+    --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'SF Pro Display', 'Microsoft YaHei', sans-serif;
+    background: #f5f5f7;
+    color: var(--secondary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header — Apple dark nav bar */
+  .header {
+    background: rgba(29,29,31,0.92);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    color: #f5f5f7;
+    padding: 0 28px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  .header-left { display: flex; align-items: center; gap: 10px; }
+
+  .header h1 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: #f5f5f7;
+  }
+
+  .header-icon { font-size: 20px; }
+
+  .header-stats {
+    font-size: 12px;
+    color: rgba(245,245,247,0.5);
+    background: rgba(255,255,255,0.08);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Layout */
+  .layout {
+    display: flex;
+    height: calc(100vh - 52px - 48px); /* header + tabs */
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 216px;
+    background: var(--white);
+    border-right: 0.5px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section { padding: 18px 10px 8px; }
+
+  .sidebar-label {
+    font-size: 11px;
+    color: var(--gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 0 10px;
+    margin-bottom: 4px;
+  }
+
+  .cat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+    font-size: 14px;
+    color: var(--secondary);
+    user-select: none;
+  }
+
+  .cat-item:hover { background: var(--light-gray); }
+  .cat-item.active { background: var(--primary-bg); color: var(--primary); font-weight: 500; }
+
+  .cat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  .cat-count {
+    margin-left: auto;
+    font-size: 11px;
+    background: #ebebed;
+    color: var(--gray);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cat-item.active .cat-count { background: var(--primary-bg); color: var(--primary); }
+
+  .add-cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--gray);
+    transition: background 0.12s;
+  }
+
+  .add-cat-btn:hover { background: var(--light-gray); color: var(--blue); }
+
+  /* Main */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Toolbar */
+  .toolbar {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-box { flex: 1; max-width: 340px; position: relative; }
+
+  .search-box input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #ebebed;
+    color: var(--secondary);
+    transition: all 0.2s;
+  }
+
+  .search-box input:focus {
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(0,113,227,0.2);
+  }
+
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 13px; }
+
+  .sort-select {
+    padding: 7px 10px;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    background: var(--white);
+    color: var(--secondary);
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 16px;
+    border-radius: 980px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: -0.1px;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+
+  .btn-primary:hover { background: #cc1d42; box-shadow: 0 2px 12px rgba(232,34,78,0.28); }
+
+  .btn-outline {
+    background: var(--white);
+    color: var(--secondary);
+    border: 0.5px solid var(--border);
+  }
+
+  .btn-outline:hover { background: var(--light-gray); }
+
+  .view-toggle {
+    display: flex;
+    background: #ebebed;
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+  }
+
+  .view-btn {
+    padding: 5px 9px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--gray);
+    border-radius: 6px;
+    transition: all 0.12s;
+    font-size: 14px;
+  }
+
+  .view-btn.active { background: var(--white); color: var(--secondary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+  /* Content */
+  .content { flex: 1; overflow-y: auto; padding: 20px; background: #f5f5f7; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  .cards-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    border: 0.5px solid #e0e0e5;
+    padding: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    box-shadow: var(--card-shadow);
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    transform: translateY(-2px);
+  }
+
+  .card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+
+  .card-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .card-title { font-size: 15px; font-weight: 600; color: var(--secondary); flex: 1; line-height: 1.4; letter-spacing: -0.2px; }
+
+  .card-text {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cards-list .card-text { -webkit-line-clamp: 2; }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 0.5px solid #ebebed;
+  }
+
+  .card-meta { font-size: 11px; color: #86868b; display: flex; align-items: center; gap: 10px; }
+
+  .card-actions { display: flex; gap: 6px; opacity: 0; transition: opacity 0.15s; }
+  .card:hover .card-actions { opacity: 1; }
+
+  .icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 0.5px solid var(--border);
+    background: #f5f5f7;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.12s;
+    color: var(--gray);
+  }
+
+  .icon-btn:hover { border-color: var(--blue); color: var(--blue); background: #e8f1fb; }
+  .icon-btn.delete:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-bg); }
+
+  /* Favorite star */
+  .star-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #d2d2d7;
+    transition: color 0.15s;
+    background: none;
+    border: none;
+    padding: 2px;
+  }
+
+  .star-btn.active { color: #ff9f0a; }
+  .star-btn:hover { color: #ff9f0a; }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--gray);
+    gap: 10px;
+  }
+
+  .empty-icon { font-size: 44px; opacity: 0.3; }
+  .empty-text { font-size: 16px; font-weight: 500; color: var(--secondary); }
+  .empty-sub { font-size: 13px; color: var(--gray); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: rgba(255,255,255,0.98);
+    border-radius: 20px;
+    width: 580px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    animation: slideUp 0.22s cubic-bezier(0.34,1.56,0.64,1);
+    border: 0.5px solid rgba(0,0,0,0.1);
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(24px) scale(0.97); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: #ebebed;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6e6e73;
+    transition: background 0.12s;
+  }
+
+  .modal-close:hover { background: #d2d2d7; }
+
+  .modal-body { padding: 20px 24px; }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--secondary);
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: -0.1px;
+  }
+
+  .form-label span { color: var(--primary); }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 9px 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.15s;
+    font-family: inherit;
+    color: var(--secondary);
+    background: var(--white);
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+  }
+
+  .form-textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
+
+  .form-hint { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+  .modal-footer {
+    padding: 12px 24px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  /* Detail modal */
+  .detail-cat-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 980px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .detail-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; line-height: 1.4; letter-spacing: -0.4px; }
+
+  .detail-text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--secondary);
+    white-space: pre-wrap;
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+
+  .detail-meta { font-size: 12px; color: #86868b; display: flex; gap: 16px; }
+
+  .detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: rgba(29,29,31,0.92);
+    backdrop-filter: blur(12px);
+    color: #f5f5f7;
+    padding: 11px 22px;
+    border-radius: 980px;
+    font-size: 14px;
+    z-index: 9999;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Category color picker */
+  .cat-color-picker { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .color-option {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2.5px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .color-option.selected { border-color: var(--secondary); transform: scale(1.15); }
+
+  /* Fav badge */
+  .fav-badge {
+    font-size: 11px;
+    background: #fff8e6;
+    color: #ff9f0a;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #aeaeb2; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <span class="header-icon">🎙️</span>
+    <h1>四喜直播话术库</h1>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="header-stats" id="headerStats">共 0 条话术</span>
+    <span id="loginUserBadge" style="font-size:13px;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:20px;display:none"></span>
+    <button onclick="openPwdModal()" title="账号管理" style="background:rgba(255,255,255,0.1);border:none;color:rgba(245,245,247,0.8);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px;transition:background 0.12s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">⚙️ 账号</button>
+    <button onclick="doLogout()" title="退出登录" style="background:rgba(255,255,255,0.1);border:none;color:rgba(245,245,247,0.8);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px;transition:background 0.12s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">退出</button>
+  </div>
+</div>
+
+<!-- Page Tabs -->
+<div style="display:flex;align-items:center;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:0.5px solid #d2d2d7;padding:0 28px;gap:2px;height:48px">
+  <button id="tab-gen" onclick="switchTab('gen')" style="padding:0 18px;height:48px;font-size:14px;font-weight:500;border:none;background:none;cursor:pointer;color:#e8224e;border-bottom:2px solid #e8224e;margin-bottom:-0.5px;transition:all 0.15s;letter-spacing:-0.1px">🤖 智能生成</button>
+  <button id="tab-library" onclick="switchTab('library')" style="padding:0 18px;height:48px;font-size:14px;font-weight:500;border:none;background:none;cursor:pointer;color:#6e6e73;border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all 0.15s;letter-spacing:-0.1px">📚 话术库</button>
+</div>
+
+<!-- Generator Panel (default) -->
+<div id="panel-gen" style="padding:28px 32px;max-width:1060px;margin:0 auto">
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start">
+    <!-- Left: Form -->
+    <div style="background:white;border-radius:18px;padding:28px;box-shadow:0 1px 4px rgba(0,0,0,0.06),0 8px 32px rgba(0,0,0,0.04);border:0.5px solid #e0e0e5">
+      <div style="font-size:17px;font-weight:600;color:#1d1d1f;margin-bottom:20px;display:flex;align-items:center;gap:10px;letter-spacing:-0.3px">
+        <span style="background:#1d1d1f;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px">🤖</span>
+        填写产品信息，一键生成专属话术
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">产品名称 <span>*</span></label>
+          <input type="text" class="form-input" id="genName" placeholder="例如：菜篮子花园包">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">材质 <span>*</span></label>
+          <input type="text" class="form-input" id="genMaterial" placeholder="例如：法羊皮、福宝皮">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">直播价 <span>*</span></label>
+          <input type="text" class="form-input" id="genPrice" placeholder="例如：399">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">原价 / 市场对比价</label>
+          <input type="text" class="form-input" id="genOrigPrice" placeholder="例如：1280">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">库存数量</label>
+          <input type="text" class="form-input" id="genStock" placeholder="例如：50">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">核心卖点（一句话）</label>
+          <input type="text" class="form-input" id="genFeature" placeholder="例如：蜡线手工缝制、同爱马仕工艺">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">颜色描述</label>
+          <input type="text" class="form-input" id="genColor" placeholder="例如：奶茶色、焦糖棕、哑光黑">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">容量规格</label>
+          <input type="text" class="form-input" id="genCapacity" placeholder="例如：18cm、可放A4文件">
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <label style="font-size:13px;font-weight:500;color:#2f3542;display:block;margin-bottom:8px">穿搭季节</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:20px;border:1.5px solid #dfe4ea;font-size:13px;transition:all 0.15s" id="sLabel-all">
+            <input type="radio" name="genSeason" value="all" checked style="accent-color:#ff4757" onchange="updateSeasonLabels()"> 🌈 四季通用
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:20px;border:1.5px solid #dfe4ea;font-size:13px;transition:all 0.15s" id="sLabel-winter">
+            <input type="radio" name="genSeason" value="winter" style="accent-color:#ff4757" onchange="updateSeasonLabels()"> 🍂 秋冬穿搭
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:20px;border:1.5px solid #dfe4ea;font-size:13px;transition:all 0.15s" id="sLabel-summer">
+            <input type="radio" name="genSeason" value="summer" style="accent-color:#ff4757" onchange="updateSeasonLabels()"> 🌸 春夏穿搭
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap">
+        <button onclick="handleGenerate()" style="flex:1;padding:12px;background:#1d1d1f;color:white;border:none;border-radius:980px;font-size:15px;font-weight:500;cursor:pointer;min-width:140px;letter-spacing:-0.2px;transition:opacity 0.15s" onmouseover="this.style.opacity=0.82" onmouseout="this.style.opacity=1">⚡ 生成话术</button>
+        <button onclick="generateNote()" style="flex:1;padding:12px;background:#e8224e;color:white;border:none;border-radius:980px;font-size:15px;font-weight:500;cursor:pointer;min-width:140px;letter-spacing:-0.2px;transition:opacity 0.15s" onmouseover="this.style.opacity=0.82" onmouseout="this.style.opacity=1">📝 生成小红书笔记</button>
+        <button onclick="clearGenForm()" style="padding:12px 18px;background:#ebebed;color:#6e6e73;border:none;border-radius:980px;font-size:14px;cursor:pointer;transition:background 0.12s" onmouseover="this.style.background='#d2d2d7'" onmouseout="this.style.background='#ebebed'">清空</button>
+      </div>
+    </div>
+
+    <!-- Right: Image Upload -->
+    <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.06),0 8px 32px rgba(0,0,0,0.04);border:0.5px solid #e0e0e5">
+      <div style="font-size:15px;font-weight:600;color:#1d1d1f;margin-bottom:6px;letter-spacing:-0.2px">📸 上传产品实物图</div>
+      <div style="font-size:12px;color:#6e6e73;margin-bottom:14px;line-height:1.6">上传后 AI 自动识别皮质、颜色、做工细节，生成独一无二的专属话术</div>
+      <!-- Multi-image grid -->
+      <div id="imgGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px"></div>
+      <!-- Drop zone -->
+      <div id="imgDropZone" onclick="document.getElementById('imgFileInput').click()"
+        ondragover="event.preventDefault();this.style.borderColor='#1d1d1f';this.style.background='#f0f0f2'" ondragleave="this.style.borderColor='#d2d2d7';this.style.background='#f5f5f7'"
+        ondrop="handleImgDrop(event)"
+        style="border:1.5px dashed #d2d2d7;border-radius:12px;padding:22px 12px;text-align:center;cursor:pointer;transition:all 0.18s;background:#f5f5f7">
+        <input type="file" id="imgFileInput" accept="image/*" multiple style="display:none" onchange="handleImgSelect(event)">
+        <div id="imgPlaceholder" style="color:#aeaeb2;font-size:13px;line-height:1.9">
+          <div style="font-size:32px;margin-bottom:6px">＋</div>
+          点击 或 拖拽添加图片<br>
+          <span style="font-size:11px;color:#c7c7cc">整体图 / 走线细节 / 五金 / 内里，最多 6 张</span>
+        </div>
+      </div>
+      <div id="imgAnalysisTag" style="display:none;margin-top:8px;font-size:12px;color:#0071e3;font-weight:500"></div>
+      <div style="margin-top:16px;padding:14px;background:#f5f5f7;border-radius:12px;font-size:12px;color:#6e6e73;line-height:1.9">
+        <div style="font-weight:600;color:#1d1d1f;margin-bottom:6px">💡 使用说明</div>
+        <div>• 无图片 — 根据填写的产品信息生成话术</div>
+        <div>• 有图片 + API密钥 — AI 看图生成专属话术</div>
+        <div>• API密钥在 <b>⚙️ 账号</b> 管理中填写</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="genResult" style="margin-top:24px;display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div style="font-size:15px;font-weight:600;color:#1d1d1f;display:flex;align-items:center;gap:8px;letter-spacing:-0.2px">
+        已生成 <span id="genCount" style="color:#e8224e">0</span> 条
+        <span style="font-size:12px;color:#6e6e73;font-weight:400">可单独保存每节，或合并成一整套</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="saveAllBtn" style="display:none;background:#ebebed;color:#1d1d1f" onclick="saveAllGenerated()">💾 分章节保存</button>
+        <button class="btn" id="downloadBtn" style="display:none;background:#1d1d1f;color:white" onclick="downloadScript()">⬇ 下载话术</button>
+        <button class="btn btn-primary" id="saveFullBtn" style="display:none" onclick="saveFullScript()">📋 保存为完整话术</button>
+      </div>
+    </div>
+    <div id="genCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:14px"></div>
+  </div>
+</div>
+
+<!-- Library Panel (hidden by default) -->
+<div id="panel-library" style="display:none">
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">分类筛选</div>
+      <div class="cat-item active" onclick="filterByCategory('all')" id="cat-all">
+        <span class="cat-dot" style="background:#747d8c"></span>
+        全部话术
+        <span class="cat-count" id="count-all">0</span>
+      </div>
+      <div class="cat-item" onclick="filterByCategory('fav')" id="cat-fav">
+        <span>⭐</span>
+        我的收藏
+        <span class="cat-count" id="count-fav">0</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">话术分类</div>
+      <div id="categoryList"></div>
+      <div class="add-cat-btn" onclick="openCategoryModal()">
+        <span>＋</span> 新建分类
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索话术标题或内容…" oninput="handleSearch()">
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="renderCards()">
+        <option value="newest">最新添加</option>
+        <option value="oldest">最早添加</option>
+        <option value="name">按名称</option>
+        <option value="fav">收藏优先</option>
+      </select>
+      <div style="flex:1"></div>
+      <div class="view-toggle">
+        <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="网格视图">⊞</button>
+        <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="列表视图">☰</button>
+      </div>
+      <button class="btn btn-outline" onclick="switchTab('gen')" style="border-color:#ff4757;color:#ff4757">
+        🤖 去生成话术
+      </button>
+      <button class="btn btn-primary" onclick="openAddModal()">
+        ＋ 添加话术
+      </button>
+    </div>
+
+    <div class="content">
+      <div id="cardContainer" class="cards-grid"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /panel-library -->
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="addModal" onclick="handleOverlayClick(event, 'addModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">添加话术</div>
+      <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editingId">
+      <div class="form-group">
+        <label class="form-label">话术标题 <span>*</span></label>
+        <input type="text" class="form-input" id="scriptTitle" placeholder="例如：开场暖场话术、限时促单话术…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">所属分类 <span>*</span></label>
+        <select class="form-select" id="scriptCategory">
+          <option value="">请选择分类</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">话术内容 <span>*</span></label>
+        <textarea class="form-textarea" id="scriptContent" placeholder="在这里输入完整话术内容…&#10;&#10;技巧：可以用[产品名]、[价格]等标记需要替换的地方"></textarea>
+        <div class="form-hint">支持换行，建议使用 [] 标记变量，例如：[产品名]、[优惠价格]</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注说明</label>
+        <input type="text" class="form-input" id="scriptNote" placeholder="例如：适用于新品首播、大促活动…">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveScript()">保存话术</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal" onclick="handleOverlayClick(event, 'detailModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">话术详情</div>
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="modal-body" id="detailContent"></div>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal-overlay" id="catModal" onclick="handleOverlayClick(event, 'catModal')">
+  <div class="modal" style="width:420px">
+    <div class="modal-header">
+      <div class="modal-title">新建分类</div>
+      <button class="modal-close" onclick="closeModal('catModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">分类名称 <span>*</span></label>
+        <input type="text" class="form-input" id="catName" placeholder="例如：开场话术、促单话术…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类颜色</label>
+        <div class="cat-color-picker" id="colorPicker"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类图标</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="iconPicker"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('catModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveCategory()">创建分类</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Screen -->
+<div id="loginScreen" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#ff4757 0%,#c0392b 100%);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:20px;padding:40px 36px;width:380px;max-width:92vw;box-shadow:0 24px 60px rgba(0,0,0,0.25);animation:slideUp 0.3s ease">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:40px;margin-bottom:10px">🎙️</div>
+      <div style="font-size:20px;font-weight:700;color:#2f3542">四喜直播话术库</div>
+      <div style="font-size:13px;color:#747d8c;margin-top:6px">请登录后使用</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:13px;font-weight:500;color:#2f3542;display:block;margin-bottom:6px">用户名</label>
+      <input id="loginUser" type="text" placeholder="请输入用户名" autocomplete="username"
+        style="width:100%;padding:10px 14px;border:1.5px solid #dfe4ea;border-radius:10px;font-size:14px;outline:none;font-family:inherit"
+        onfocus="this.style.borderColor='#ff4757'" onblur="this.style.borderColor='#dfe4ea'"
+        onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:13px;font-weight:500;color:#2f3542;display:block;margin-bottom:6px">密码</label>
+      <input id="loginPass" type="password" placeholder="请输入密码" autocomplete="current-password"
+        style="width:100%;padding:10px 14px;border:1.5px solid #dfe4ea;border-radius:10px;font-size:14px;outline:none;font-family:inherit"
+        onfocus="this.style.borderColor='#ff4757'" onblur="this.style.borderColor='#dfe4ea'"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div id="loginErr" style="font-size:13px;color:#ff4757;margin-bottom:12px;display:none;text-align:center"></div>
+    <button onclick="doLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#ff4757,#c0392b);color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity 0.15s" onmouseover="this.style.opacity=0.88" onmouseout="this.style.opacity=1">
+      登 录
+    </button>
+  </div>
+</div>
+
+<!-- Account Management Modal -->
+<div class="modal-overlay" id="pwdModal" onclick="handleOverlayClick(event,'pwdModal')">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ 账号管理</div>
+      <button class="modal-close" onclick="closeModal('pwdModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#fff5f5;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#c0392b">
+        ⚠️ 修改密码后，旧密码立即失效。请妥善保管新密码。
+      </div>
+      <div style="margin-bottom:20px">
+        <div style="font-size:13px;font-weight:600;color:#2f3542;margin-bottom:10px">当前账号列表</div>
+        <div id="accountList" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <hr style="border:none;border-top:1px solid #dfe4ea;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:#2f3542;margin-bottom:12px">➕ 新增账号 / 修改密码</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="font-size:12px;color:#747d8c;display:block;margin-bottom:4px">用户名</label>
+          <input id="newAccUser" type="text" class="form-input" placeholder="例如：主播小红">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#747d8c;display:block;margin-bottom:4px">新密码</label>
+          <input id="newAccPass" type="password" class="form-input" placeholder="至少4位">
+        </div>
+      </div>
+      <button onclick="saveAccount()" class="btn btn-primary" style="width:100%">保存账号</button>
+      <hr style="border:none;border-top:1px solid #dfe4ea;margin:18px 0 14px">
+      <div style="font-size:13px;font-weight:600;color:#2f3542;margin-bottom:4px">🤖 Claude AI 密钥（图片识别/AI话术）</div>
+      <div style="font-size:12px;color:#636e72;margin-bottom:10px">填入后可上传包包实物图片，AI自动分析皮质并生成专属话术和小红书笔记</div>
+      <input id="apiKeyInput" type="password" class="form-input" placeholder="sk-ant-api03-..." style="margin-bottom:10px">
+      <button onclick="saveApiKey()" class="btn" style="width:100%;background:#6c5ce7;color:white;border-color:#6c5ce7">保存 API 密钥</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('pwdModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- Generator Modal removed — now inline in panel-gen -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ DATA ============
+const COLORS = ['#ff4757','#ff6348','#ffa502','#2ed573','#1e90ff','#a29bfe','#fd79a8','#00cec9','#6c5ce7','#fdcb6e'];
+const ICONS = ['🎙️','🔥','💰','⏰','🎯','💬','🎁','📢','✨','❤️','🛒','🌟','💎','🎉','👋'];
+
+let state = {
+  categories: [],
+  scripts: [],
+  currentFilter: 'all',
+  searchQuery: '',
+  view: 'grid',
+  selectedColor: COLORS[0],
+  selectedIcon: ICONS[0],
+};
+
+function loadData() {
+  // Version check: clear old cache when data version changes
+  const DATA_VERSION = 'v9';
+  if (localStorage.getItem('liveStreamDataVersion') !== DATA_VERSION) {
+    localStorage.removeItem('liveStreamCats');
+    localStorage.removeItem('liveStreamScripts');
+    localStorage.setItem('liveStreamDataVersion', DATA_VERSION);
+  }
+  try {
+    const cats = localStorage.getItem('liveStreamCats');
+    const scripts = localStorage.getItem('liveStreamScripts');
+    if (cats) state.categories = JSON.parse(cats);
+    if (scripts) state.scripts = JSON.parse(scripts);
+  } catch(e) {}
+
+  // Init default categories if empty
+  if (state.categories.length === 0) {
+    state.categories = [
+      { id: 'c1', name: '皮料卖点', color: '#c0392b', icon: '🐑', createdAt: 1700000000000 },
+      { id: 'c2', name: '内里工艺', color: '#2980b9', icon: '✨', createdAt: 1700000001000 },
+      { id: 'c3', name: '稀缺促单', color: '#e67e22', icon: '⏰', createdAt: 1700000002000 },
+      { id: 'c4', name: '对比话术', color: '#27ae60', icon: '📊', createdAt: 1700000003000 },
+      { id: 'c5', name: '风格理念', color: '#8e44ad', icon: '💎', createdAt: 1700000004000 },
+      { id: 'c6', name: '搭配场景', color: '#16a085', icon: '👗', createdAt: 1700000005000 },
+      { id: 'c7', name: '开场暖场', color: '#ff4757', icon: '👋', createdAt: 1700000006000 },
+      { id: 'c8', name: '产品介绍', color: '#3498db', icon: '🛍️', createdAt: 1700000007000 },
+      { id: 'c9', name: '互动留人', color: '#2ed573', icon: '💬', createdAt: 1700000008000 },
+      { id: 'c10', name: '异议处理', color: '#fd79a8', icon: '🤝', createdAt: 1700000009000 },
+      { id: 'c11', name: '结尾收场', color: '#a29bfe', icon: '🎉', createdAt: 1700000010000 },
+      { id: 'c12', name: '人感话术', color: '#e84393', icon: '🫶', createdAt: 1700000011000 },
+      { id: 'c13', name: '新中式美学', color: '#b5651d', icon: '🍂', createdAt: 1700000012000 },
+    ];
+  }
+
+  if (state.scripts.length === 0) {
+    state.scripts = [
+      {
+        id: 's001', title: '法羊皮品质说明', categoryId: 'c1', favorite: false,
+        content: '法羊，简单说就是"法国出生并长大的顶级小羊皮"。它不是一个羊的品种，而是一个代表皮革处理最高工艺的"地理标识"和"品质勋章"，就像葡萄酒里的"波尔多"、"勃艮第"一样。\n\n每100张原皮中，仅有不到10张能通过我们的5道伤痕检测，达到A级标准。',
+        note: 's78 法羊皮介绍开场', createdAt: 1700001000000
+      },
+      {
+        id: 's002', title: '顶级皮质鉴别三步法', categoryId: 'c1', favorite: true,
+        content: '1. 请您先闭上眼睛，用手背轻轻拂过皮面。是不是感觉到一种类似天鹅绒或婴儿肌肤的温润细腻？这是顶级羊皮才有的触感，因为它的毛孔排列极其细密均匀，是可以感受到呼吸感的。\n\n2. 现在，轻轻用手指捏一下包身。您看，它迅速回弹，没有留下永久折痕。这说明了皮料本身的油脂含量高、纤维组织富有活力，就和少女胶原蛋白非常饱满一样，是Q弹的。\n\n3. 最后，我们把它放在自然光下，微微转动角度。请注意光泽的变化——它不是一层浮在表面的亮膜，而是一种从皮料内部透出来的、像珍珠一样的柔和缎光。这是因为我们采用了昂贵的半苯胺工艺，最大程度保留了皮胚的自然美。',
+        note: 's78/s34 通用皮质鉴别，适合直播中现场演示', createdAt: 1700002000000
+      },
+      {
+        id: 's003', title: '胎牛皮稀缺卖点', categoryId: 'c1', favorite: false,
+        content: '请您先闭上眼睛，用手背轻轻拂过皮面。是不是感觉到一种类似天鹅绒或婴儿肌肤的温润细腻？这是胎牛皮才有的触感，因为它的毛孔排列极其细密均匀。\n\n轻轻用手指捏一下包身。您看，它迅速回弹，没有留下永久折痕。这说明了皮料本身的油脂含量高、纤维组织富有活力，是健康幼羊皮的特质。\n\n最后，放在自然光下微微转动角度。请注意光泽变化——它不是浮在表面的亮膜，而是从皮料内部透出来的、像珍珠一样的柔和缎光。这是因为我们采用了昂贵的半苯胺涂饰工艺，最大程度保留了皮胚的自然美。',
+        note: 's34 胎牛皮专用版本', createdAt: 1700003000000
+      },
+      {
+        id: 's004', title: '限量皮料稀缺性话术', categoryId: 'c3', favorite: false,
+        content: '这次的上新非常特殊：\n\n1. 材料特殊：材料只有这么多\n2. 工坊特殊：我们师傅要放假了\n3. 新品特意为过年准备的，是我给大家做的限量款\n\n"顶级的全羊皮"是我们工坊开特别产品线。因为匹配内外皮质、协调色泽与柔软度的原料需要时间收集。这一批仅有XX只，用的皮料都有独立编号。它不仅仅是一个包，更是一件值得收藏的皮革艺术品。并且只用3位数，而且还是我们的独家款式！',
+        note: 's78 年前限量款适用', createdAt: 1700004000000
+      },
+      {
+        id: 's005', title: '高密度超细麂皮绒内里介绍', categoryId: 'c2', favorite: true,
+        content: '内里我们选用的是行业内公认的高端材质——高密度超细麂皮绒。说它"高级"，主要体现在三个细节上：\n\n1. 纤维极细：它的单根纤维粗细只有普通涤纶的1/10，接近真丝。所以您摸上去不会有粗糙的"颗粒感"，而是如粉末般细腻平滑的触感。\n\n2. 工艺特殊：这是经过"染色后处理"的绒布。颜色不是浮在表面，而是吃进了纤维内部，所以色彩饱和度高，且久用不易褪色、不易产生摩擦掉色的白痕。\n\n3. 很多顶级奢侈品的珠宝袋、手表盒内衬，以及高端汽车的内饰，用的都是同类材质。和普通几十块包包里用的"针刺无纺布"有本质区别。那些廉价内衬容易起球、掉毛、一摸一手灰，而我们的材质，您摸多久，手都是干净的，历久弥新。\n\n它高级就高级在：视觉上是哑光的奢华质感，触觉上是婴儿肌肤般的亲腻柔软，功能上则是坚固耐用的温柔铠甲。',
+        note: 's63 内里材质介绍，适合对比竞品时使用', createdAt: 1700005000000
+      },
+      {
+        id: 's006', title: '无Logo静奢风格理念', categoryId: 'c5', favorite: true,
+        content: '无Logo设计成为了一种"圈层暗号"。它不追求被所有人认出，只期待被同频、有相同审美眼光的人悄然识别，这种隐秘的共鸣感带来了更大的满足。\n\n以"静奢风"(Quiet Luxury)和"老钱风"(Old Money Aesthetic)为代表的审美席卷全球。其核心精髓正是低调、优雅、不露声色的贵气，强调通过顶级面料、精妙剪裁和极简设计来体现高级感，而非外露的标识。\n\n无Logo包包完美契合了这种"毫不费力的时髦"。它提供了一种在信息爆炸时代的"视觉松弛感"，让穿搭拥有呼吸的空间。\n\n去掉Logo后，消费者的注意力会完全回归到产品本身：廓形是否优美？皮质是否高级？缝线是否工整？五金是否精致？这种追求超越了季节潮流，是一种更为理性的消费态度。',
+        note: '平纹波士顿 风格理念开场', createdAt: 1700006000000
+      },
+      {
+        id: 's007', title: '首发价格稀缺性话术', categoryId: 'c3', favorite: false,
+        content: '这只包包我们今天新品首发到手价格才[xxx]，但凡是我们同样的工艺和细节，你们去对比一下市面上的版本，人家都是要四位数以上（图片价格展示）。\n\n因为我们有自己的源头工厂，自己的研发团队，没有第三方赚差价，所以才能够给到大家这么有质价比的价格。\n\n说实话这个价格你收到手，背出门人家看到了都会以为是4位数入手小众款式，这个材质以及工艺就是它显贵的答案。\n\n而且只有首发才有这个优惠，喜欢的姐妹左上角领券下单，我们安排顺丰快递礼盒包装发出！',
+        note: '平纹波士顿/通用 首发优惠促单', createdAt: 1700007000000
+      },
+      {
+        id: 's008', title: '年前库存时间稀缺话术', categoryId: 'c3', favorite: true,
+        content: '工厂放假，物流停运，这就是年前最后的提货窗口！现在拍，年前还能背上它美美过年；今天犹豫，下次见面可能就是明年春天了，漫长的等待你确定要等吗？\n\n不是危言耸听，工厂一放假就是整整一个月。这期间皮料不裁、缝纫机不开、师傅不返工。你现在下单，是收货；年后犹豫再下单，那就是排队，而且是排在一个月之后的长队。\n\n接下来大家面临的就是：皮料稀缺、工期稀缺、库存更稀缺。这三重稀缺在工厂放假这个节点叠加，就形成了现在的"绝对稀缺"。你买的不是一个包，是一个在时间夹缝中才能拥有的机会。',
+        note: '年前大促/节假日前使用', createdAt: 1700008000000
+      },
+      {
+        id: 's009', title: '走线五金工艺对比', categoryId: 'c4', favorite: true,
+        content: '普通版用的是机器平针，看起来单薄廉价。但是我们全部用的是杜科普给大家做的纯蜡线一寸七针的走线！你看这个线条的立体度和饱满程度就知道了，普通的尼龙走线根本不在一个级别～\n\n对比一下五金件：普通版用的是合金镀金，三个月就会褪色。我们所有五金都是纯钢五金，用十年依旧光亮如新。',
+        note: '菜篮子/波士顿 工艺对比通用', createdAt: 1700009000000
+      },
+      {
+        id: 's010', title: '福宝皮材质对比', categoryId: 'c4', favorite: false,
+        content: '市面上同款用的多是过长的牛皮材质，我们给大家用的这个福宝皮单面料成本就是普通版的5倍。\n\n你摸一下这个颗粒感，感受一下这个皮质的韧劲！这才是真正的好的材质！！\n\n皮质摸上去必须是温润柔韧的，不是硬邦邦或塑料感的。凑近闻，要有淡淡的天然皮革香气，而不是化工味。这是高级感的底层密码，照片拍不出，但拿到手立刻高下立判。',
+        note: '菜篮子 材质对比', createdAt: 1700010000000
+      },
+      {
+        id: 's011', title: '容量场景介绍', categoryId: 'c6', favorite: false,
+        content: '日常这只包包是18的尺寸，我觉得容量也完全足够了！5折雨伞、水杯、手账本都可以放进去，完全不用担心。\n\n它必须是个"戏路很宽"的演员：\n• 通勤时能装下iPad和化妆包，且不臃肿\n• 周末下午茶时，随手一拎就能搭配连衣裙，不显笨重\n• 两天一夜短途旅行，它甚至能当随身登机包\n\n关键是，在这些场景切换中，它不能有"违和感"。',
+        note: '容量/场景介绍通用', createdAt: 1700011000000
+      },
+      {
+        id: 's012', title: '耐用养包话术', categoryId: 'c4', favorite: false,
+        content: '这只包会越用越柔软，而且越用油脂感会越重！！！是一只可盘可养的包包！！！\n\n而且我很多老客户用过的，她们已经能够明显感受到了，就是你们刚开始收到的时候羊皮是非常厚实的，收到是这种稍稍挺的感觉，那你想让它更加随意一点的话，就随意用它，它越用会越有自然自带的那种范儿。',
+        note: '皮具养护/耐用度对比通用', createdAt: 1700012000000
+      },
+      {
+        id: 's013', title: '品牌溢价对比话术', categoryId: 'c4', favorite: true,
+        content: '同样工艺，我自己买的5位数，今天三位数的价格，不是产品不值钱，而是我们去掉了品牌溢价和层层代理，让利给愿意花时间愿意在直播间陪伴我的姐妹们！',
+        note: '通用 价格定位对比，简短有力', createdAt: 1700013000000
+      },
+      {
+        id: 's014', title: '花园包手工工时稀缺性', categoryId: 'c3', favorite: false,
+        content: '从挑选材质到出成品！光是今天手缝这个细节——一个手柄我问了就要10多分钟的时间，而且还是有经验的师傅才是这个时间～经验不足的师傅用时更久。\n\n整个包包是4个手柄，光是手柄就是1小时，按照每天上班时间来说一天一个工人只能缝8-10个包！！！\n\n所以大家现在看到的每一个包，背后都是师傅真正的时间和心血，这不是流水线货，是有温度的手作。',
+        note: '菜篮子/花园包 手工稀缺', createdAt: 1700014000000
+      },
+      {
+        id: 's015', title: '爱马仕蜡线工艺详解', categoryId: 'c2', favorite: false,
+        content: '爱马仕以其精湛的手工艺闻名，其中蜡线（waxed thread）是品牌标志性工艺之一。\n\n蜡线通常为亚麻或涤纶材质，表面经过特殊蜡处理，更加坚韧且防水，同时增强抗拉强度。\n\n爱马仕的缝线均为斜纹线（saddle stitch，马鞍针法）而非机器缝制的直线。工匠采用双针马鞍针法，每一针都手工完成，确保缝线均匀、紧密，针孔细腻。即使部分磨损也不会整体脱线，经久耐用。\n\n我们的包同样采用这一工艺：手工开缝、手推防伪线、手工缝线、手工打磨油边，每一处细节都离不开老师傅专业的手工制作。每一条皮质边缘全部有手推防伪线，防伪线与手缝线相得益彰，使整体线路更加立体——这也是爱马仕高档手工皮具极具特色的一种工艺！',
+        note: '菜篮子 爱马仕工艺对标，适合讲工艺时使用', createdAt: 1700015000000
+      },
+      {
+        id: 's016', title: '进口边油工艺说明', categoryId: 'c2', favorite: false,
+        content: '关于边油，我们选用的是意大利芬尼斯的水性边油，由于欧洲严格的环保标准，品质有保障。\n\n我们的多层涂膜工艺：需要经过5次打磨6次涂膜，确保厚度均匀，边缘光滑、哑光、平整、无气泡，与皮革过渡自然。\n\n进口油边是水油，会渗进皮革里面产生特有的拉丝感。这样的油边在极度寒冷的地方也不会裂开，更不会出现掉油边现象，在炎热的夏季也不会出现油边融化的情况。',
+        note: '菜篮子 边油工艺说明', createdAt: 1700016000000
+      },
+      {
+        id: 's017', title: '花园包四季搭配话术', categoryId: 'c6', favorite: true,
+        content: '这只包包一年四季都可以搭：\n• 冬天配大衣是松弛感\n• 春天配风衣是文艺范\n• 夏天配连衣裙是浪漫风\n• 秋天配针织衫是温柔系\n\n真正的"一包封神"，说的就是它！\n\n不要以为它只能休闲或者只能气质！看好了——\n周末，你拎它去买花喝咖啡，是惬意；\n通勤，你装水杯雨伞，是随性干练；\n度假，你带上它去海边草地，是上镜神器；\n甚至晚上约会，随手一挎都毫无违和感。\n\n这就是真正不挑场合的"全能选手"！',
+        note: '菜篮子/花园包 四季搭配', createdAt: 1700017000000
+      },
+      {
+        id: 's018', title: '礼盒包装附加值', categoryId: 'c4', favorite: false,
+        content: '普通版就是一个防尘袋，我们配置了定制礼盒、防尘袋，送人自带高级感，自用也有仪式感。',
+        note: '包装附加值说明', createdAt: 1700018000000
+      },
+
+      // ===== 开场暖场 =====
+      {
+        id: 'n001', title: '欢迎新粉开场话术', categoryId: 'c7', favorite: false,
+        content: '欢迎宝宝们进我们的直播间！今天我们直播间会出一款史无前例巨大优惠的产品哦，一定不要错过了哟！\n\n还没关注的宝宝，赶紧点左上角关注，关注主播不迷路！进来的是美女还是帅哥呢？刷刷弹幕让我看到你！',
+        note: '通用开场，适合每场直播前3分钟', createdAt: 1700019000000
+      },
+      {
+        id: 'n002', title: '福利大促开场话术', categoryId: 'c7', favorite: true,
+        content: '宝宝们，今天纯放福利！我今天手上这件[产品名]，只要两位数，工厂直发，不信你们去同款比价！\n\n话不多说，我们先来抽波奖——想参与的宝宝先点个关注，一会儿截屏抽三位幸运儿，各得一份大礼！\n\n今晚的活动力度是今年最大的一次，错过真的要等一年！',
+        note: '大促活动/新品首发 开场', createdAt: 1700020000000
+      },
+      {
+        id: 'n003', title: '痛点共鸣引入话术', categoryId: 'c7', favorite: false,
+        content: '你是不是和我一样，换季就犯愁，换好几个款式都不满意？今天我专门找到了一款，好多粉丝反馈说用了之后特别惊喜——\n\n今天直播间我就带大家好好看看，感受感受，反正七天无理由退，买了不好用直接退，我承担来回运费！',
+        note: '适合针对特定人群痛点开场', createdAt: 1700021000000
+      },
+      {
+        id: 'n004', title: '新主播暖场话术', categoryId: 'c7', favorite: false,
+        content: '大家好，我是一名新主播，今天是直播带货第XX天，感谢大家对我的支持。有很多地方还做得不够好，希望大家多多包容，我会越来越好的！\n\n感谢XX进入直播间！大家进来记得点个关注，我们每晚X点准时开播，今天给大家带来了几款超级好物！',
+        note: '新主播/冷场时暖场使用', createdAt: 1700022000000
+      },
+      {
+        id: 'n005', title: '预告悬念开场话术', categoryId: 'c7', favorite: true,
+        content: '今天我要揭晓一个秘密！我们有一款销量突破10万件的爆款，斩男又斩女——在线人气突破1000就放价，宝宝们趴住了啊！\n\n今天直播间活动超级大，[产品名]只要[价格]元！比平时便宜很多！数量有限，先到先得！\n\n8点半我们还有发红包活动，9点半有10元秒杀，想参加的一定不要离开！',
+        note: '制造悬念，适合活动场开场', createdAt: 1700023000000
+      },
+
+      // ===== 产品介绍 =====
+      {
+        id: 'n006', title: '数据背书型介绍话术', categoryId: 'c8', favorite: false,
+        content: '这款产品之前在XX平台已经卖了10万套！累计销量破2万单，上架当天突破3000单，是我们直播间的爆品，复购率非常高，产品不好哪会有这么多回头客？\n\n而且好评率98%以上，大家可以去网上查一下这个品牌，年销量过亿，实打实的销量，不是我自己吹的。',
+        note: '有销量数据时使用，增强信任感', createdAt: 1700024000000
+      },
+      {
+        id: 'n007', title: '场景化感官描述话术', categoryId: 'c8', favorite: true,
+        content: '宝宝们有没有经常出去旅游的，但又不想拿太多东西？[场景描述]——\n\n你看我手里的[产品名]，[感官描述1]，[感官描述2]，[感官描述3]。\n\n哇！你看[效果描述]！嘴巴/皮肤/触感[具体感受]，[情感共鸣]！\n\n这个就是[产品名]最厉害的地方，你们一定要感受一下！',
+        note: '通用场景感官描述框架，填入对应信息', createdAt: 1700025000000
+      },
+      {
+        id: 'n008', title: '主播亲测信任话术', categoryId: 'c8', favorite: true,
+        content: '这款[产品名]我自己用了X个月了，[使用效果]，没有[负面问题]。\n\n我给我爸妈也买了，他们都说[反馈]！我的同事里，但凡用过的都回购了。\n\n你们看我现在的状态，[视觉效果]，这就是[产品名]带来的变化，不是滤镜，是真实的！\n\n我要是觉得不好我第一个不推，我的口碑比任何一条质检证明都管用！',
+        note: '通用亲测信任框架，填入对应产品信息', createdAt: 1700026000000
+      },
+      {
+        id: 'n009', title: '专业讲解型话术', categoryId: 'c8', favorite: false,
+        content: '宝宝们，来看这款[产品名]，我专门研究过这个品类，给大家说几个行业内的知识点——\n\n第一个，[专业知识点1]，这意味着[对用户的好处]。\n\n第二个，[专业知识点2]，很多人不知道这个细节，但这恰恰是[品质/效果]的关键。\n\n第三个，[专业知识点3]，所以你们看[产品名]的[具体细节]，一看就是真正懂行的人做出来的东西。',
+        note: '专业类产品介绍通用框架', createdAt: 1700027000000
+      },
+
+      // ===== 稀缺促单（补充） =====
+      {
+        id: 'n010', title: '价格锚定催单话术', categoryId: 'c3', favorite: true,
+        content: '天猫旗舰店的价格是[原价]元，今天晚上在我直播间，买2件直接减[优惠额]，相当于第1件[价格]，第2件不要钱，再给你多减几块，我还送[赠品]！你说值不值？\n\n它的专柜价近[高价]，今天咱们直播间，我给你一个惊喜价，只要[直播价]！今天大家在我直播间是赶上了，只开[X]单，谁抢到谁就是赚到！',
+        note: '有明确价格对比时使用', createdAt: 1700028000000
+      },
+      {
+        id: 'n011', title: '倒计时秒杀话术', categoryId: 'c3', favorite: true,
+        content: '来宝贝，1分钟内下单我放这个价格，别人都买[原价]，今天我这边只要[秒杀价]，1分钟内你能抢多少我就发多少——3、2、1，改价！\n\n手速快的宝宝赶紧拍！犹豫一下就没了！已经有[X]个宝宝拍下去了，还在等什么！\n\n先付先得！最后2分钟！最后2分钟！手慢无！',
+        note: '秒杀/倒计时环节使用', createdAt: 1700029000000
+      },
+      {
+        id: 'n012', title: '库存告急氛围话术', categoryId: 'c3', favorite: false,
+        content: '宝宝们，这个价格能给的库存真的只有[X]件了，现在就是拼手速，过了今天真的不一定能给到这个价格！\n\n还有最后三分钟！没有买到的家人们赶紧下单！时间到了我们就下架了！\n\n已经卖出去[X]个，只剩下[X]个，没下单的宝宝快点！',
+        note: '库存紧张时制造紧迫感', createdAt: 1700030000000
+      },
+      {
+        id: 'n013', title: '引导下单操作话术', categoryId: 'c3', favorite: false,
+        content: '不用想，直接拍，只有我们这里有这样的价格，往后只会越来越贵！这次活动力度是今年最大的，现在拍能省[X]钱！\n\n点击购物车，本场所有产品都能看到，进到直播间点关注，加到购物车看一看，有惊喜哦！\n\n已经拍下的宝宝抓紧付款，机会难得，稍纵即逝！已经买到的家人在公屏打"买了"让我看到你们！',
+        note: '引导用户操作下单步骤', createdAt: 1700031000000
+      },
+
+      // ===== 互动留人 =====
+      {
+        id: 'n014', title: '福利时间点留人话术', categoryId: 'c9', favorite: true,
+        content: '宝宝们，[X]点半我们有发红包活动，[X]点我们有[产品名]10元秒杀活动哦！想参加的一定不要离开！\n\n直播间的粉丝宝宝们！[时间]整我们就抽免单了啊，还没有点关注的宝宝上方点个关注，加入我们的粉丝团，还可以去找客服小姐姐领[X]元优惠券！\n\n不会搭配的姐妹、[特定人群]的宝宝稍等，下面这个专门为你们准备的，别划走！',
+        note: '预告福利时间，防止观众离开', createdAt: 1700032000000
+      },
+      {
+        id: 'n015', title: '互动问答留人话术', categoryId: 'c9', favorite: false,
+        content: '有没有喜欢[场景]的宝宝们？有的话可以扣1，主播马上给大家上[产品]！\n\n喜欢[A款]的宝宝扣1，喜欢[B款]的宝宝扣2，看看我们直播间喜欢哪款的多！\n\n想看[款式1]的刷1，想看[款式2]的刷2，宝宝们帮主播做个决定！',
+        note: '冷场时引发互动，收集用户偏好', createdAt: 1700033000000
+      },
+      {
+        id: 'n016', title: '点赞抽奖互动话术', categoryId: 'c9', favorite: true,
+        content: '刷屏抽奖时间到！想参加的宝宝在评论区刷"好看好看"，主播一会儿截屏抽取三位幸运儿，各得一份大礼！\n\n宝宝们动动小手帮主播破[X]万点赞，主播就给大家发一波福利券！\n\n感觉宝宝们不够尽兴啊，是不是活动力度还不够大？好！主播今天再给大家上一波福利，想要的宝宝们666扣起来！！！',
+        note: '活跃直播间氛围，引导点赞互动', createdAt: 1700034000000
+      },
+      {
+        id: 'n017', title: '痛点场景留人话术', categoryId: 'c9', favorite: false,
+        content: '[目标人群]的家人们别划走，这个[时间]后见！\n\n加班熬夜没时间[场景]、[痛点]的家人们别划走，这个[产品]3分钟搞定，我马上给大家演示！\n\n[年龄/体型/肤质]特征的姐妹举手！今天教你[好处]，三分钟后见！',
+        note: '针对特定人群痛点，制造悬念留人', createdAt: 1700035000000
+      },
+
+      // ===== 异议处理 =====
+      {
+        id: 'n018', title: '应对嫌贵话术', categoryId: 'c10', favorite: true,
+        content: '家人，这款是品牌方给我们的年度最低价，我们签了保价协议，接下来30天如果降价，直接补你差价！而且现在下单还送赠品，过几天赠品就没了，早买早用才划算！\n\n这个价格看起来高，但是你算一下——假如用两年，平均每年不到[X]元，每天不过几毛钱。我们的产品可以用三到五年，反而是最便宜的！\n\n我完全理解你的感受，我第一次看到这个价格也觉得有点贵。但是你去同款搜一下，我们这个是全网最低价，品质还更好，支持七天无理由退换，你不满意退款都没问题。',
+        note: '观众说贵/价格异议时使用', createdAt: 1700036000000
+      },
+      {
+        id: 'n019', title: '应对质疑质量话术', categoryId: 'c10', favorite: true,
+        content: '我们所有的宝贝都经过严格质检，发货前有专业质检人员进行二次检验，对本店售出的所有商品提供质量保证及7天无理由退换货服务，大家放心拍！\n\n这款[产品]我自己用了[X]个月，要是有问题我第一个不干，我的口碑比任何一条质检证明都管用！大家有任何问题直接找我们客服，当天回复处理！\n\n而且支持7天无理由退货，来回运费我们承担，你收到货可以试用，有问题直接退，完全没有风险！',
+        note: '观众质疑产品质量时使用', createdAt: 1700037000000
+      },
+      {
+        id: 'n020', title: '应对担心不合适话术', categoryId: 'c10', favorite: false,
+        content: '[小姐姐/小哥哥]稍等，可以先关注主播，主播现在为你试穿/试用搭配，[身材特征]完全没问题的！\n\n主播身高/体重[X]，大家看我穿/用上是这个效果。[X]cm的家人放心，这款[产品]有[款式]，我身边[X]cm的同事试过，穿起来刚好[效果]。\n\n不合适也能换，不用担心！七天无理由退换，来回运费我们承担！',
+        note: '观众担心尺码/效果不合适时使用', createdAt: 1700038000000
+      },
+      {
+        id: 'n021', title: '应对犹豫不决话术', categoryId: 'c10', favorite: true,
+        content: '宝宝你先不要走！你现在犹豫的，是怕买了用不到，对吗？\n\n我告诉你，我们支持7天无理由退货，运费险也买了，你完全可以先拿回家试用，不好用再退，不会有任何损失！\n\n而且今天这个价格是直播间专属，你现在出去搜同款，随便都是[X]元以上。今天犹豫出去，明天想回来买，这个价格可能已经没有了——下单才是最正确的决定！',
+        note: '观众迟迟不下单/反复犹豫时使用', createdAt: 1700039000000
+      },
+      {
+        id: 'n022', title: '处理售后顾虑话术', categoryId: 'c10', favorite: false,
+        content: '宝宝放心，我们的售后是非常完善的——\n\n收到货有问题，拍视频发给客服，客服24小时内给你回复解决方案。\n\n如果是质量问题，直接补发，不用退货；如果是不喜欢，7天无理由，运费险全包，0损失。\n\n我做直播这么久，口碑是我最重要的东西，绝对不会让任何一个宝宝吃亏！有问题找我，我给你解决！',
+        note: '观众询问售后政策/有顾虑时使用', createdAt: 1700040000000
+      },
+
+      // ===== 结尾收场 =====
+      {
+        id: 'n023', title: '感谢陪伴收场话术', categoryId: 'c11', favorite: true,
+        content: '感谢今晚[X]位在线粉丝陪到我下播，更感谢从开播一直陪到现在的宝宝们——你们的陪伴是最长情的告白，你们的爱意我记在心里了！\n\n非常感谢大家对我直播的支持，我觉得有了你们才有我前进的动力。今天和宝宝们度过了非常愉快的时光！大家晚安，再见！',
+        note: '通用温情收场，感谢长期陪伴的粉丝', createdAt: 1700041000000
+      },
+      {
+        id: 'n024', title: '收尾抽奖下播话术', categoryId: 'c11', favorite: false,
+        content: '主播还有20分钟就要下播了，非常感谢大家的陪伴！主播最后给大家抽个奖好不好？\n\n没有关注直播间的宝宝们给主播点点关注，我们马上开始最后一轮抽奖！\n\n想参与的宝宝在评论区刷"[关键词]"，主播截屏抽取[X]位幸运儿，各得[奖品]——开始！',
+        note: '下播前抽奖，积累粉丝关注', createdAt: 1700042000000
+      },
+      {
+        id: 'n025', title: '下次预告收场话术', categoryId: 'c11', favorite: true,
+        content: '今天的直播接近尾声了！明天/[X]点，同样时间开播，大家可以点一下关注，各位奔走相告吧！\n\n今天所有进入直播间的宝宝，[时间]这个时间记得来，我们会有一款从来没有上过的新品首发，比今天的价格还要炸——到时候见！\n\n不要忘了，进粉丝群可以提前收到开播通知，链接在评论区置顶！',
+        note: '预告下次直播，提高回播率', createdAt: 1700043000000
+      },
+      {
+        id: 'n026', title: '温情告别话术', categoryId: 'c11', favorite: false,
+        content: '又到了该下播的时间了，和大家在一起的时光总是飞逝。感谢哥哥姐姐们从开播一直陪到现在，感谢每一位留下来的宝宝，你们让今晚的直播间特别温暖。\n\n希望今天买到东西的宝宝收到货都满意，有任何问题随时找我们！\n\n最后为大家播放一首歌，播完就下播了。希望大家睡个好觉，做个好梦，明天新的一天好好工作，晚上我们继续再聚！',
+        note: '温情收场，增强粉丝情感连接', createdAt: 1700044000000
+      },
+
+      // ===== 竞品风格优化新增话术 =====
+      {
+        id: 'p001', title: '油蜡皮盘养升值话术', categoryId: 'c1', favorite: true,
+        content: '姐妹们，这款用的是双色刷染头层油蜡牛皮，内和外的质感都非常到位，全盒油。\n\n什么叫"全盒油"？就是皮的每一寸毛孔里都浸透了油脂。你拿到手第一天，皮子还有点紧，用一用，它会越来越松弛，越来越有自己的气质——这就是我们说的"盘养"。\n\n一块好皮子和一个普通皮，最大的区别就在这里：普通皮一年后开始旧，好皮一年后开始"熟"。越用越有腔调，越用越有油润感，你花的是一次的钱，得到的是会一直变好的包。\n\n拿护肤品擦一擦，盘一盘，皮质秒开，嘎嘎好！',
+        note: '油蜡皮/头层牛皮产品专用，强调盘养升值', createdAt: 1700045000000
+      },
+      {
+        id: 'p002', title: '高级克制审美理念话术', categoryId: 'c5', favorite: true,
+        content: '我给你们出的东西，你们不用去担心——我本来就不是那种喜欢浮夸东西的人，我喜欢的是简约、耐看、高级克制的东西。\n\n什么叫"耐看"？就是你第一眼觉得好看，第一百眼还是好看。它不是靠夸张的装饰抓眼球，而是靠精准的廓形和好皮质让人移不开视线。\n\n无论什么时候拿出来，永远不过时，永远有腔调——这才是值得投资的东西。\n\n很重要的一点：小众品牌的品位都很好，它会把你的搭配考虑得很周到，你只管放心背出去就行。',
+        note: '品牌理念/风格调性话术，适合新粉首次进入直播间时使用', createdAt: 1700046000000
+      },
+      {
+        id: 'p003', title: '黑色长期主义颜色话术', categoryId: 'c1', favorite: true,
+        content: '越是黑色的，就越长期主义，越低调，越适合日常百搭。\n\n这句话你们记住——黑色不是"没有颜色"，黑色是"超越所有颜色"的颜色。它是最难被时间淘汰的颜色，是你衣柜里永远不会后悔的那个选择。\n\n而且这款黑色用的是植鞣皮，即使是黑色也非常高级，皮面有清晰可见的毛孔纹理，你摸上去能感受到那种细腻和厚重感——这才是真正的好黑色。\n\n优先买黑色，再买咖色，这是我给姐妹们最诚实的建议。',
+        note: '黑色/深色包包专用颜色话术', createdAt: 1700047000000
+      },
+      {
+        id: 'p004', title: '容量具体场景描述话术', categoryId: 'c6', favorite: true,
+        content: '这个包真的很能装，不要看外观小巧——\n\n你们试想一下，日常出门的标配：五折雨伞放进去、矿泉水放进去、手机、卧镜、钱包都可以放，容量大，品质特别好。\n\n通勤的姐妹放心，iPad可以放，电脑一般的13寸也能放，出差当随身包没问题。\n\n这个包的容量设计是很有考量的——它既保持了外观的精致利落，又没有牺牲实用性，这叫"聪明的大"。背在身上挺括有型，什么都装得下，还不显臃肿，这就是好的设计。',
+        note: '容量介绍话术，适合展示实际放入物品时使用', createdAt: 1700048000000
+      },
+      {
+        id: 'p005', title: '全钢五金品质话术', categoryId: 'c2', favorite: false,
+        content: '五金这个细节，很多人不在意，但这恰恰是一个包包"上不上档次"的关键。\n\n我们用的是全钢五金，质感非常高，不会变色，不会生锈，更不会有皮肤过敏的问题。\n\n你去看市面上那些几百块的包，五金都是合金镀色，拎三个月就开始发黄、掉漆，那种感觉真的很廉价。\n\n我们的全钢五金，你用十年，打开拉链的手感还是顺滑的那种，声音也是沉的——好五金你一摸就知道，那个分量感是骗不了人的。',
+        note: '五金工艺介绍，适合配合拉链/扣件展示', createdAt: 1700049000000
+      },
+      {
+        id: 'p006', title: '手工油边工艺介绍话术', categoryId: 'c2', favorite: true,
+        content: '你们看这个袋口，全部是手工油边，经过三四次打磨，每一道边都是师傅手工上的油——这个细节，在大牌那边叫"标志性工艺"，在我们这里叫"基本功"。\n\n什么叫好工艺？就是你把包翻过来，里里外外每一条边都是一样的处理方式：全部做油边，侧边有拉链贴边袋，内里的做法也全部是油边，没有一处偷工减料。\n\n真正懂包的姐妹看这里——手工油边做出来的边缘是哑光的、细腻的，你摸上去不会有任何毛边感，这才是好包的标准。',
+        note: '手工油边/工艺细节展示时使用', createdAt: 1700050000000
+      },
+      {
+        id: 'p007', title: '稀缺最后几单催单话术', categoryId: 'c3', favorite: true,
+        content: '姐妹们，这个颜色现货只有最后四单了，过了今天就只有预售！\n\n我说这个话是认真的，不是那种"永远最后几单"的套路——你们在我这里买东西这么久，知道我是什么风格，货没了就是没了，我不会让你们白等。\n\n这七十块钱（或者[价格]元），就是为了让大家认识一下我们，认识一下这款皮。收到货你背出去，人家看到的是质感，不是价格——这笔账怎么算都划算。\n\n花小号的价格买到中号的品质，就是今天。想要的姐妹快点，我们按下单时间顺序发货！',
+        note: '库存告急催单，语气要自然真诚不焦急', createdAt: 1700051000000
+      },
+      {
+        id: 'p008', title: '新粉信任建立话术', categoryId: 'c7', favorite: true,
+        content: '欢迎刚进来的新姐妹！点左上角关注，不迷路！\n\n认识我的新粉，我告诉你我这里是什么风格：我不卖那种浮夸的东西，我出的每一款，审美一定在线，品质一定把关过。\n\n我要让你一下就"哐当掉进我这个坑里"，靠的不是花言巧语，靠的是你收到货那一刻的感受——摸到皮质，看到做工，你就知道这钱花得值。\n\n我给你的说服力，不只是材质，还有价格。这个价格是我挤出来给大家的，你们出去搜同款，我们能给的价格就是最诚意的那个。',
+        note: '新粉开场暖场+信任建立，真诚风格', createdAt: 1700052000000
+      },
+      {
+        id: 'p009', title: '春夏秋冬穿搭联动话术', categoryId: 'c6', favorite: true,
+        content: '这款包放在当季怎么搭都有氛围感——\n\n春夏想要极简味道：配白色衬衫、阔腿裤，手提单肩随意一拎，腔调就出来了。那种"毫不费力的时髦"，说的就是这种感觉。\n\n秋冬想要大衣配大包：把它当通勤包，职场款、简约风，背出去绝对有腔调。搭深色大衣的时候，包的颜色就是整身造型的灵魂。\n\n它不挑场合——周末买花喝咖啡是惬意，上班装文件是干练，晚上约会单肩一背是精致。一个包走遍所有场景，这才是真正的性价比！',
+        note: '四季搭配+多场景联动，适合展示不同搭配时使用', createdAt: 1700053000000
+      },
+      {
+        id: 'p010', title: '在凹造型时的腔调话术', categoryId: 'c5', favorite: false,
+        content: '你们在凹造型的时候——这个包一定很有腔调的感觉，你看，线条是自然呈现的，有这种弧度，腰身很重要。\n\n就像人一样，有腰身的包包才有精气神。那种懒懒的慵懒小精致，就是这种感觉——这是缪缪系列里那种随性又讲究的气质，不是刻意的，是自然流露的。\n\n它很轻，很柔软，很有油润感。背着它，不是你在配包，是包在配你——这才是你和一只好包之间应该有的关系。\n\n无论你是拍照打卡还是日常出街，它放在那里就是一个点睛的存在。',
+        note: '风格气质描述，适合展示包的廓形/线条时配合使用', createdAt: 1700054000000
+      },
+
+      // ===== 编织包专属话术 =====
+      {
+        id: 'w001', title: '编织包数据背书开场话术', categoryId: 'c7', favorite: true,
+        content: '姐妹们！这支纯手工的编织包，已经突破500单了！在线加购的已经超过1000人——真的没想到大家这么喜欢这个新款！\n\n说实话，当初出这支包我也有点忐忑，但你们拍出来的照片发给我看，随手一拍就特别有氛围感，夏天出去玩随便拍都出片，我自己都爱了。\n\n今天在场的姐妹，你们来得很巧，这款已经断货过一次，今天补的这批数量真的不多，想要的赶快看！',
+        note: '编织包开场，用真实数据制造社交认可感', createdAt: 1700055000000
+      },
+      {
+        id: 'w002', title: '纯手工编织工艺卖点话术', categoryId: 'c2', favorite: true,
+        content: '这只包，整只都是有多年经验的老师傅纯手工编出来的，不是机器压的，是一根一根线手工穿织的。\n\n你们看这个编织的纹路——密度非常均匀，每一个交叉点都压得非常扎实，这个工艺是普通工厂做不出来的，因为机器编出来的纹路是死的，手工编出来的纹路是活的，有温度的。\n\n而且越背越有质感，编织的部分会随着使用慢慢形成自己的弧度，贴合你的手和肩，这叫"包随人成形"——这是手工品独有的魅力，工厂货永远给不了你这种感觉。',
+        note: '编织包手工工艺卖点，强调手工温度感', createdAt: 1700056000000
+      },
+      {
+        id: 'w003', title: '编织包多风格多背法话术', categoryId: 'c6', favorite: true,
+        content: '这支编织包的好处就在于——它超级百搭，不同风格的姐妹都能驾驭！\n\n喜欢度假风的：拎着它配吊带裙，去海边、去露营、去咖啡馆，随手一拍就是大片。\n\n喜欢知性风的：配白衬衫西装裤，手提或者单肩，职场上班也很得体，不会突兀。\n\n喜欢少女感的：配碎花裙、马卡龙色系的套装，拎着它逛花市喝下午茶，整个人就很灵动。\n\n最重要是三种背法都好看：手提有气场，单肩有慵懒感，斜挎有少年气——同一只包，今天是文艺女孩，明天是时髦辣妹，后天是精致OL，这就是它值得拥有的理由！',
+        note: '编织包搭配话术，展示多风格多背法', createdAt: 1700057000000
+      },
+      {
+        id: 'w004', title: '编织包氛围感种草话术', categoryId: 'c5', favorite: false,
+        content: '有没有姐妹最近迷上这种编织款的包？我觉得今年夏天最出片的包，第一名就给它！\n\n普通的包你背着出去，就是包；编织包你背出去，是氛围感！是风格！是那种"她好像很会生活"的感觉。\n\n就是那种随手拍照往草地上一放、咖啡杯旁边一摆，不用专门打光构图，天然就很有质感的那种画面——这种氛围感，是皮包给不了你的。\n\n而且这支是手工编织，不是市场上那种机器编的流水货，你仔细看纹路，每一格都是扎实有力的，这个质量差别你收到货就能感受到。夏天最后几周，入手这支，值得！',
+        note: '编织包氛围感种草，适合夏季推广', createdAt: 1700058000000
+      },
+
+      // ===== 人感话术 =====
+      {
+        id: 'h001', title: '主播真实心里话', categoryId: 'c12', favorite: true,
+        content: '跟大家说一句真心话——\n\n我不是那种什么都说好的主播。有些东西我觉得不值，我不会推给你们；有些东西我自己都买了，我才有底气站在这里说。\n\n今天这款，我收到样品的时候，我自己留了一个。不是因为我要留着拍视频，是因为我真的喜欢。皮质、做工、这个价格——放到我面前我第一反应是：这个我要。\n\n所以我给你们推这个，我心里是踏实的。你们信任我，我才不会拿烂货来砸我自己的牌子。\n\n喜欢的姐妹，放心下。',
+        note: '建立主播真实感和信任感，适合新粉或第一次推某品类时使用'
+      },
+      {
+        id: 'h002', title: '记得老粉名字的暖心话术', categoryId: 'c12', favorite: true,
+        content: '哎，我看到你了——\n\n（叫出评论里老粉的名字），你今天也来了！上次你买的那款收到了吗？\n\n我每次直播都会看评论，有些面孔真的太熟了。你们不知道，每次开播前我都有点紧张，但只要看到几个熟悉的ID出现在直播间，心里一下就踏实了。\n\n真的很谢谢一直陪着我的姐妹们。你们对我来说不只是"观众"，是真正的老朋友了。\n\n今天陪我一起慢慢看，不用赶，我们聊一聊。',
+        note: '点名老粉互动，营造真实社群感，增强粉丝粘性'
+      },
+      {
+        id: 'h003', title: '不硬推·让你自己决定', categoryId: 'c12', favorite: false,
+        content: '我今天不想逼任何一个人下单。\n\n你们来我直播间，我希望你们是因为真的喜欢、真的觉得适合自己才买，而不是被我说得晕乎乎的然后回去后悔。\n\n所以我现在给你们几分钟，自己摸摸心里：你的衣橱里需要这样一只包吗？你有它能用上吗？如果答案是有，那这个价格买下去你不亏；如果你只是一时心动，那先收藏也行，我不急。\n\n我宁愿你买一次记住我，也不愿你买完后悔再也不来。\n\n（停顿）好，想好了的姐妹——下单吧。',
+        note: '反向营销，给消费者自主感，反而激发购买信任'
+      },
+      {
+        id: 'h004', title: '主播分享背后的小故事', categoryId: 'c12', favorite: true,
+        content: '说个真事，上周我去见一个老朋友，她说了一句话让我印象很深——\n\n她说：你现在背的包变了，整个人气质都不一样了。\n\n我当时一愣，然后我想了想，好像是真的。不是包让人变了，是当你背着一只你真心喜欢的包出门，你走路的姿态就不一样了。你会更挺胸，更注意自己的仪态，因为你觉得自己值得。\n\n这听起来好像很玄，但我真的信这个。\n\n一只好包对女生来说，不只是装东西的，是一种"我对自己好一点"的态度。\n\n今天这款，就是这种感觉。你收到的那一刻，你会明白我在说什么。',
+        note: '用主播个人小故事带入情感共鸣，软化消费心理'
+      },
+      {
+        id: 'h005', title: '承认自己不完美的真实感话术', categoryId: 'c12', favorite: false,
+        content: '我今天状态有点不在线，声音可能有点哑，因为昨天说了太多话了——但我还是来了，因为今天这款我一定要给你们看到。\n\n有时候我就在想，直播这件事对我来说意味着什么？\n\n我没有大公司背书，没有很多钱做营销，就是每天在这个小直播间，跟你们聊聊包，聊聊生活。能走到今天，全靠你们一个一个点关注，一单一单的支持。\n\n所以我对每一款出的产品都是认真的，因为那是我用来回报你们信任的东西。\n\n今天也是，认真带，请放心买。',
+        note: '展示主播真实状态和情感，引发粉丝保护欲和认同感'
+      },
+      {
+        id: 'h006', title: '对话式提问·像朋友聊天', categoryId: 'c12', favorite: true,
+        content: '我问大家一个问题——\n\n你上一次买包是什么时候？买完之后，那只包现在放在哪里？\n\n我猜大多数姐妹的回答是：放在柜子里没怎么用，或者用了一段时间觉得没有刚开始喜欢了。\n\n所以今天我出这款，我特别想跟你们说清楚：买包不是买颜值，是买一种和你生活方式匹配的东西。\n\n你平时上班多、还是出去玩多？你的衣服是偏休闲还是偏正式？你背包习惯手提还是斜挎？\n\n想清楚这些，再来看这只包适不适合你。我宁愿你想清楚了再买，比冲动买了放柜子里强多了。\n\n（等观众回应）好，有没有姐妹觉得符合自己的？说说你的情况，我帮你参谋。',
+        note: '提问式话术引发双向互动，像朋友聊天而非销售，降低防御心'
+      },
+      {
+        id: 'h007', title: '收到好评后的真情回应', categoryId: 'c12', favorite: false,
+        content: '刚刚有姐妹在评论里说，上次买的包收到了，皮质超出预期，还专门拍了照片发给我——\n\n（看向镜头，真诚说）谢谢你，真的。\n\n你不知道这句话对我意味着什么。我每天发出去那么多包，晚上躺下来最担心的就是：她们收到了满不满意？有没有踩雷？\n\n收到这种消息，是我继续做下去最大的动力。\n\n所以我才会那么在意每一款的品质——因为你们信任我，我怎么能让你们失望呢？\n\n已经买过的姐妹，收到记得来告诉我感受，好的坏的都说，我都在听。还没买过的姐妹——今天是个好机会。',
+        note: '真实回应好评，把买家反馈转化为新粉信任，形成社会证明'
+      },
+      {
+        id: 'h008', title: '主播私藏同款·自用推荐', categoryId: 'c12', favorite: true,
+        content: '这个我要说一句——这款我自己有。\n\n不是公司给我的，是我自己掏钱买的。我知道这句话很多主播都在说，但我说这句话有证据：（拿出自己的包）你们看，这是我日常背的，边角这里已经有点包浆了，皮质越用越润，颜色也越来越深，这就是头层皮越用越好的最好证明。\n\n我用了这么久，没有任何质量问题，这才是我敢在直播间推荐给你们的底气。\n\n主播自用款，和你们分享一个颜色，库存不多，先到先得。',
+        note: '用主播自用实物做背书，配合展示使用痕迹，最真实的信任话术'
+      },
+
+      // ===== 新中式美学（从优秀同行录音学习提炼）=====
+      {
+        id: 'xz001', title: '传统色命名·颜色文化叙事', categoryId: 'c13', favorite: true,
+        content: '姐妹们，我来跟大家好好聊一聊这个颜色——\n\n在中国传统色里，这个颜色有自己的名字。古人形容它是"金银气色，若白青黄"——既有春回大地、万物复苏的自然之美，也有黄金白银、富贵无极的红尘之美。\n\n所以民间有这样一句话：黄山白月是神仙梦，黄金白银是富贵梦。穿上它，想做神仙梦，做神仙梦；想做富贵梦，做富贵梦。\n\n这就是中国传统色的魅力——它不只是一个颜色，而是一段历史，一种哲学，一个关于美好生活的愿景。\n\n背上它，你不只是在选一种颜色，你是在选一种与千年东方美学的共鸣。',
+        note: '适合新中式/传统美学风格包袋，颜色讲解时引入文化叙事，拉高产品气质'
+      },
+      {
+        id: 'xz002', title: '工匠精神故事叙事版', categoryId: 'c13', favorite: true,
+        content: '世间万物的美好，都是来之不易的。\n\n就像这只包的每一条走线——不是机器按下去的，而是匠人握着针，盯着这条线，一下、一下，专注地走。\n\n那一针，是一次呼吸；那一条线，是一段心绪。\n\n从一张原皮开始，经过层层筛选，每100张里，只有不到10张能通过品质关。然后经过鞣制、染色、打磨、手工走线、多层油边……每一道工序都不能偷懒，因为偷懒的代价是用了三个月就烂掉的皮。\n\n你摸一摸这条油边——经历了五次打磨、六次涂层，手工抛光到丝滑没有一点毛刺。\n\n你看见的是精致，你看不见的是匠人藏在每一厘米里的认真。\n\n这丝丝缕缕之间，藏着择一事、从一身的工匠精神。最终成就的，又何止是一个包。',
+        note: '新中式工艺叙事，像讲故事一样讲工艺，提升产品文化厚度'
+      },
+      {
+        id: 'xz003', title: '材质哲学升华·好皮有生命', categoryId: 'c13', favorite: true,
+        content: '一块真正的好皮，是有生命的。\n\n它来自一头在草原上自由生长的羊，身上带着自然给予的细腻纹路。经过匠人之手，一次次揉、一次次染、一次次磨，直到这块皮变得温润如玉，有光泽，有韧性，有呼吸感。\n\n你用手背去触摸它——会感觉到一种温度。那不只是常温，是皮料吸收了光和空气之后散发出来的暖意。\n\n好皮有三个感受：\n✦ 温——摸上去不凉，像是有体温\n✦ 韧——捏一下迅速回弹，不留折痕\n✦ 香——凑近有淡淡的天然皮革香，不刺鼻\n\n而且它会越用越好——第一天是挺括的新皮感，用了三个月皮质开始软化，用了一年，它开始有属于你的包浆，那是只有你才能给它的岁月印记。\n\n这世界上很多东西是越用越旧，只有真正好的皮具，是越用越美。',
+        note: '材质感官化+哲学升华，适合讲好皮料时打动高要求消费者'
+      },
+      {
+        id: 'xz004', title: '东方美学·什么是真正的好包', categoryId: 'c13', favorite: true,
+        content: '今天想先跟大家聊一个话题——什么样的包，才算是真正的好包？\n\n不是logo大的，不是网红同款的，不是贵的。\n\n真正的好包，是有"呼吸感"的——你摸上去，它温润，像在回应你的手；你背上去，它柔软地贴合你身体的弧度，不累，不硌；你用了一年，它不变形，皮质反而越来越有光泽，带着你独有的使用痕迹，越用越有味道。\n\n这种包，在日本叫做"经年之美"——随着时间流逝，不是老旧，而是愈发动人。\n\n不是要你们冲动购买，是想邀请大家，用五分钟好好认识它——摸一摸这块皮，看一看这条线，想一想它会跟着你去哪里。\n\n准备好了吗？我们开始。',
+        note: '东方美学开场，慢节奏·有质感，适合中高端定位产品开场'
+      },
+      {
+        id: 'xz005', title: '颜色情感叙事·越看越心动', categoryId: 'c13', favorite: false,
+        content: '这个颜色，我要好好跟大家说一说。\n\n它不是那种一眼夺目的颜色，却是那种越看越心动的颜色——如同君子之交淡如水，第一眼不惊艳，却能在你的衣橱里住得最久。\n\n显肤色：它不与皮肤抢风头，反而像一道柔光，把你肤色最好的那一面映出来。黄皮背上它，黄调被压住，皮肤反而显得白皙通透；冷白皮背上它，更是清冷如霜，一种不着力气的高级感。\n\n显高显瘦：这个颜色有视觉上的轻盈感。你背上它走路，整个人的重心会往上提，显高的同时腰身也显得更纤细。\n\n真正好的颜色，是那种你今天背、明年背、五年后背，都不会过时的颜色。因为它不是追着潮流跑，而是本身就是经典。\n\n喜欢这个颜色的姐妹，评论区扣个"1"让我看到你——你们的眼光，不会让我失望。',
+        note: '颜色情感化叙事，不用硬推，让颜色自己说话'
+      },
+      {
+        id: 'xz006', title: '送给自己的礼物·人感版', categoryId: 'c12', favorite: true,
+        content: '有一句话，我一直想跟大家说——\n\n我们平时买东西，买给孩子的，买给老公的，买给爸妈的。有时候对自己反而最小气。舍得花两个小时排队给孩子买玩具，却说不出口花这点钱给自己买一只喜欢很久的包。\n\n但是姐妹，你知道吗——你今天的心情好不好，你今天出门的感觉好不好，直接影响你今天整个人的状态。\n\n一只让你喜欢的包，它不只是一个装东西的容器。\n每次出门拿它，是一种仪式感；\n收到快递拆开它，是一种惊喜感；\n用了很久舍不得换，是一种归属感。\n\n这是你给自己的礼物。不需要任何理由，不需要等什么特殊日子。\n\n就是今天，就是现在，你值得。',
+        note: '情感共鸣型人感话术，打动那些习惯为别人买、不舍得为自己花的女性消费者'
+      },
+      {
+        id: 'xz007', title: '细节即态度·工艺哲学叙事', categoryId: 'c2', favorite: true,
+        content: '（展示包的局部细节）\n\n很多人看包，只看整体。但我觉得，一个包真正的性格，藏在细节里。\n\n就像这条走线——每一针的间距是一样的，这需要师傅的手保持绝对均匀的节奏，不能急，不能乱，就像在写一排工整的字。\n\n就像这个五金——拉一下，是沉稳的声音，不轻浮，不刺耳。好五金有分量感；劣质五金是空洞的声音，用几次就会松旷。\n\n就像这个油边——颜色和皮革过渡是自然的弧线，没有突兀的接缝，像是天生就长在那里。\n\n中国古人讲"器以载道"——一件器物，承载的是制作者的态度和哲学。\n\n我们做这只包，想让它成为你日常生活里的一件好物：不张扬，但经得起看；不昂贵，但经得起用；不显眼，但用过的人都知道它的好。',
+        note: '用古语"器以载道"升华工艺细节，适合中高端包袋工艺讲解'
+      },
+      {
+        id: 'xz008', title: '美而不自知·含蓄东方美学', categoryId: 'c13', favorite: true,
+        content: '（展示包袋细节）\n\n这里有一句话，我很喜欢——\n\n美而不自知，无以美之更甚。\n\n真正的美，不是大声告诉你它美，而是让你走近它，慢慢发现它的好。\n\n这只包也是如此——第一眼，它不会以浮夸的logo抢你眼球；第一摸，它也不会用廉价的光泽欺骗你的手。\n\n但当你把它拿在手里，你会感受到皮料的温润，看到走线的工整，听到五金开合的那一声沉稳——\n\n那一刻，你就明白了。\n\n这才是东方审美里最迷人的那种美：不刻意，不张扬，却深入骨髓，让人回味无穷。\n\n懂得这种美的姐妹，才是真正的有眼光。',
+        note: '引用"美而不自知"哲学，适合有含蓄设计感的包袋，唤起高净值女性消费者的共鸣'
+      },
+
+      // ===== 从5份同行话术学习提炼·升级版 =====
+      {
+        id: 'sy001', title: '软而不塌·真皮支撑力卖点', categoryId: 'c1', favorite: true,
+        content: '很多姐妹问过我一个问题：软皮包会不会塌？\n\n这个问题问得好，因为大多数软皮包确实会塌——但我们这只不会。\n\n你看，我往里面放了手机、钱包、水杯——满满的，重不重？重的。但你看整个包的形态，还是挺的，没有塌下去。这叫"软而不塌"——皮质是柔软的，但骨架是稳的。\n\n这是因为我们用的是头层天然皮料，它本身有韧性，不需要硬衬撑着，皮自己就有形态记忆能力。\n\n这种包你背起来是轻盈柔软的感觉，但放那里是立体挺括的，随性又优雅——这才是好皮料才能做到的事。',
+        note: '真皮支撑力卖点，展示装东西时使用，软皮/真皮包专用'
+      },
+      {
+        id: 'sy002', title: '压甩vs自然甩·皮料真相对比', categoryId: 'c4', favorite: true,
+        content: '姐妹们，今天给大家科普一个很多人不知道的知识——\n\n市面上很多包的纹路，是"压甩"的：拿一块普通皮，用机器用压板压出纹路，看起来很整齐，很规则，纹理很标准——但那不是天然的，是死的。\n\n我们的皮是"自然甩纹"——就是这块皮本身的纹路，一摔一揉，自然呈现出来的样子，每一块都不一样，有深有浅，有疏有密，这叫天然。\n\n你把两块皮放在一起——压甩的，板板正正，看起来好像质量很高；自然甩的，有点随性，纹路会有点不规则——但懂皮的人，一眼就知道哪个是真的好皮。\n\n好的皮，是活的；压出来的纹，是死的。你选哪个？',
+        note: '压甩vs自然甩真皮对比，展示两种皮料时使用，教育消费者识别真假好皮'
+      },
+      {
+        id: 'sy003', title: '油藏皮里·越用越润的养护卖点', categoryId: 'c1', favorite: true,
+        content: '有一个关于我们家皮料的秘密，我要告诉你——\n\n你收到包的那天，它可能没有那么油润，没有直播间背起来那么有光泽感——这很正常，不是质量问题。\n\n因为我们用的是纯水染天然皮，油脂是藏在皮料里面的，它需要你去摸，去背，它才会慢慢透出来。\n\n就像一块刚开箱的砚台，你先要磨一磨，它的光泽才会出来。\n\n你收到包的前三天，多摸几下，用手心的温度去养它。三天之后，你会发现它开始油润了，手感变得更丰盈了，颜色也更深沉有层次了。\n\n这才是真正好皮料的感觉——不是一开始就给你一个假的亮光，而是越用越好，越背越漂亮，越盘越有味道。',
+        note: '纯水染皮养护卖点，回答"为什么没直播间那么亮"的常见疑问，建立长期使用信心'
+      },
+      {
+        id: 'sy004', title: '天然美女vs后天美女·皮料哲学', categoryId: 'c1', favorite: true,
+        content: '我问大家一个问题——\n\n你更喜欢天然美女，还是后天精雕细琢的美女？\n\n天然美女，没有过度修饰，妆淡，皮肤本身好，走路气质自然，你看了舒服，越看越好看；后天美女，妆很精致，滤镜很厚，第一眼很惊艳，但看多了有点累，有点假。\n\n皮料也是一样的道理。\n\n涂层重的皮，就是后天精装的——第一眼很亮，很光，很高调，但那是涂料的光泽，不是皮自己的。用一段时间，涂层开裂，就像脱妆了，难看极了。\n\n无涂层天然皮，就是天然美女——刚开始可能没那么惊艳，但摸上去有温度，有质感，用一年皮质反而越来越好，那种油润感和包浆感，是涂层皮永远给不了你的。\n\n你追求哪种美，就选哪种皮。',
+        note: '天然皮vs涂层皮比喻，用"天然美女"比喻天然皮的美，消费者容易共鸣'
+      },
+      {
+        id: 'sy005', title: '装东西越多越好看·反向卖点', categoryId: 'c8', favorite: true,
+        content: '跟大家说一个这只包最有意思的地方——\n\n它是装东西越多，越好看的。\n\n不信？你看，空包的时候，它有点扁，形态不是最好的状态；但你往里面塞手机、水杯、化妆包——你看，包慢慢被撑开了，皮开始绷起来，腰身出来了，整个包的廓形就活了。\n\n这就是天然软皮包的魅力——它不是那种死硬的形态，而是随你装的东西，自然呈现出它的饱满感。装越多，皮质越有张力，整个包越帅。\n\n你们以后背包不用纠结要不要多装东西——放心装，装越多越好看，这只包的灵魂就是在你装满它的那一刻才完全绽放的。',
+        note: '软皮包反向卖点，装满比空包好看，适合展示包的容量时使用'
+      },
+      {
+        id: 'sy006', title: '活皮感·有灵魂的包', categoryId: 'c1', favorite: true,
+        content: '你有没有拿过那种摸起来感觉是"死的"的包？\n\n就是摸上去是硬的、冷的、没有回应的感觉——那是工业皮，涂层厚，摸起来像塑料，像假皮。\n\n真正好的皮是"活的"——\n\n你用手背去蹭它，它会有温度；你捏一下，它会回弹，留下浅浅的指纹再慢慢消失；你用指甲轻轻一划，它能自己修复，痕迹慢慢淡化。\n\n这叫"活皮感"——皮料本身有生命力，有弹性，有记忆，会跟着你的使用慢慢发生变化，越用越有你的味道在里面。\n\n真皮包不是你的工具，是你的伙伴。你用它，它也在记录你——这是假皮包给不了你的东西。',
+        note: '活皮感卖点，感官化讲解真皮特点，高端皮具卖点话术'
+      },
+      {
+        id: 'sy007', title: '松弛感·当代女性包的气质', categoryId: 'c5', favorite: true,
+        content: '你们有没有发现，最近流行的包，越来越不是那种板板正正的款了？\n\n流行的是有点"松弛感"的——软的，懒懒的，有点随意，但随意里又透着讲究。\n\n这只包就是这种感觉。它不是那种一看就知道很贵、很精致、很刻意的包，而是那种"我今天随便拎了一个包出门，但莫名好看"的感觉。\n\n这种松弛感哪里来的？皮料。只有天然软皮才有这种随性的线条感，机器压出来的硬皮永远是死板正经的——没有灵气。\n\n喜欢极简风格、法式慵懒感、The Row那种大牌气质的姐妹——这只包就是你需要的那种"没有存在感，但随时有存在感"的好包。',
+        note: '松弛感话术，针对极简/法式/The Row风格爱好者，强调包的气质而非款式'
+      },
+      {
+        id: 'sy008', title: '一包传三代·长期主义买包观', categoryId: 'c3', favorite: true,
+        content: '我说一句很认真的话——\n\n买包这件事，不应该是今天流行什么你买什么，明年过时了再换一个，后年又流行什么再买什么——这样你的钱永远填不满一个坑。\n\n真正的好包，是"一包传三代，人走包还在"的那种。\n\n你买一只真正好皮料、好做工的包，用十年，皮质越用越有光泽，越用越有包浆，越用越有你的气场在里面——它不是在变旧，它是在变好。\n\n这才是买包的长期主义。\n\n我今天出这款，不是让你冲动消费，是让你认真选一次，然后用很久很久。你买的时候肉疼一下，拿到手上以后，你会非常非常喜欢——这种喜欢不是三天鲜，是越用越爱的那种。',
+        note: '长期主义买包观，弱化价格敏感，强调耐用价值，适合定价偏高的品质包使用'
+      },
+      {
+        id: 'sy009', title: '进口皮价值锚定·花了皮料的钱', categoryId: 'c4', favorite: true,
+        content: '跟大家算一笔账——\n\n你今天买这只包花的价格，我告诉你这钱花在哪里了：\n\n皮料——进口头层天然皮，光这块皮的材料成本就占了大头；内里——全羊皮内里，不是布料，不是超纤，是真的羊皮；做工——手工走线，每一针都是人工完成的；五金——进口五金配件，你拉一下感受一下，沉不沉？稳不稳？\n\n所以你这个价格，你只是花了皮料的钱，加工费、人工费、研发费，都算我头上了。\n\n外面同样的款，用国产超纤仿皮做的，确实可以卖更便宜。但你拿到手一摸，你就知道区别在哪里——那种感觉没办法骗人的。\n\n没有对比没有伤害，你去比一比，比完了再来找我。',
+        note: '进口皮价值拆解，回应价格异议，适合定价略高但品质好的包使用'
+      },
+      {
+        id: 'sy010', title: '极简品牌精神·The Row理念', categoryId: 'c5', favorite: true,
+        content: '很多姐妹问我：为什么你们家喜欢做这种极简风格的包？\n\n我来跟你们说说我的想法——\n\n我很喜欢The Row这个品牌，它的包动辄两三万，甚至七八万，但它没有大logo，没有花哨装饰，就是最好的皮料，最精简的设计，最扎实的做工。\n\n它的理念很简单：不靠logo增加价值，靠皮料本身说话。\n\n这才是真正的奢侈——你不是在为一个品牌名字付钱，你是在为真正好的东西付钱。\n\n我们做包也是这个态度：无原版不开发，做就做还原原版精神内核的那种质量。你背出去，不一定人人认识它，但懂行的人一眼就能看出皮质的好。\n\n这种低调的讲究，才是真正有品位的女性最爱的东西。',
+        note: 'The Row极简品牌理念，适合极简/大牌仿制款，提升品牌格调'
+      },
+      {
+        id: 'sy011', title: '尺寸推荐·小个子vs高个子', categoryId: 'c8', favorite: false,
+        content: '关于尺寸，我来帮你们做个推荐——\n\n小号：适合小个子姐妹，或者喜欢精致感的，出门东西不多，想要轻盈灵动的那种感觉，小号背起来最好看，比例最协调。\n\n中号：最百搭的尺寸，大部分姐妹的最优选。能装的东西够多，背起来又不会显得包压人，容量和颜值的平衡点。身高155-168cm的姐妹直接选中号准没错。\n\n如果你个子偏高，但凡你有点条件，都给我去选中号，因为中号在高个子身上那种松弛慵懒的感觉是最对的，大号反而显得刻意。\n\n不确定选哪个的姐妹，来评论区告诉我你的身高，我帮你推荐。',
+        note: '尺寸推荐话术，引导互动，减少购买犹豫，按身高推荐'
+      },
+      {
+        id: 'sy012', title: '颜色稀缺·这个色只有这些', categoryId: 'c3', favorite: true,
+        content: '这个颜色，我要单独拿出来说一下——\n\n这个色的皮料我只定了这么多，用完就没有了。不是我故意制造稀缺感，是真的这种颜色的进口皮本身产量就不高，我们定这批皮已经等了很久了。\n\n如果你喜欢这个颜色，今天是买它的最好机会。\n\n颜色这件事，很玄妙——有时候你今天放过一个颜色，等你想要的时候，它真的不在了。特别是这种不常见的颜色，下次做不一定有同款，就算做，皮批次不同，颜色也会有细微差别。\n\n喜欢就买。这个颜色，我帮你把关过了，是真的好看。',
+        note: '颜色稀缺话术，真实告知皮料有限，引导喜欢特定颜色的用户当下决策'
+      },
+      {
+        id: 'sy013', title: '白色不显脏·温柔白卖点', categoryId: 'c8', favorite: false,
+        content: '很多姐妹想买白包但是怕脏——今天这个白，我要好好解释一下。\n\n这个白，不是那种纯白、冷白、雪白——那种白确实容易显脏，而且显黑。\n\n我们这个白，是带一点点乳黄调的奶白色，非常温柔，非常干净，很有高级感。\n\n它有几个好处：第一，乳白调比冷白更耐看，不显老也不显廉价；第二，这种颜色的皮是天然皮料，表面没有那种廉价的光泽，所以哪怕蹭到一点点东西，不会那么明显；第三，天然皮有修复力，轻微的污迹你用手摩擦一下，很多时候可以自行消散。\n\n这个白，才是买白包最对的选择——温柔，耐脏，高级，一年四季都好搭。',
+        note: '白色包包疑虑解答，针对"怕脏"的常见异议，重新定义白色选包标准'
+      },
+      {
+        id: 'sy014', title: '主播测重量·用数据说话', categoryId: 'c1', favorite: false,
+        content: '我现在现场称一下这只包的重量，让大家有个直观感受——\n\n（拿起称）看一下——0.47，不到一斤！\n\n你想一想，这只包的皮料是进口头层皮，里面是羊皮内里，还有五金，所有东西加起来还不到一斤，这意味着什么？意味着你背一天都不会累。\n\n现在市面上很多号称皮包的东西，拿起来沉甸甸的，那是皮料厚度堆砌出来的，或者里面的填充物太多——那不叫质量好，那叫浪费材料。\n\n真正好的皮包，是轻的，因为天然皮本身就有韧性，不需要靠厚度取胜。你出门背着它，不是负担，是享受。\n\n不到一斤的包，你还有什么好纠结的？',
+        note: '现场称重话术，用数据建立轻便印象，配合实物演示效果最佳'
+      },
+      {
+        id: 'sy015', title: '背包与穿搭·这只包不挑人', categoryId: 'c6', favorite: true,
+        content: '这只包有一个我特别喜欢的特点——它不挑人，不挑衣服，不挑场合。\n\n你穿裙子：肩带细细一搭，整个人轻盈起来，走路都有风；\n你穿西装：手拎或者单肩，线条一出来，职场感立刻有了；\n你穿T恤牛仔：随手一斜挎，就是那种不费力气的时髦。\n\n有些包你买回去，只能配某一类衣服，配多了会觉得单调；这只包你配什么都顺手，因为它本身就是一个没有强烈风格的包——它是你风格的一部分，而不是你风格的全部。\n\n这种百搭，不是因为它没有设计感，是因为它的设计语言是"留白"——给你足够的空间去配合。\n\n背着它，你才是主角。',
+        note: '百搭穿搭联动话术，强调包不抢风头反而衬托人，适合展示多种搭配时使用'
+      },
+    ];
+    saveData();
+  }
+}
+
+function saveData() {
+  localStorage.setItem('liveStreamCats', JSON.stringify(state.categories));
+  localStorage.setItem('liveStreamScripts', JSON.stringify(state.scripts));
+}
+
+// ============ RENDER ============
+function getCategoryById(id) {
+  return state.categories.find(c => c.id === id);
+}
+
+function getFilteredScripts() {
+  let list = [...state.scripts];
+
+  if (state.currentFilter === 'fav') {
+    list = list.filter(s => s.favorite);
+  } else if (state.currentFilter !== 'all') {
+    list = list.filter(s => s.categoryId === state.currentFilter);
+  }
+
+  if (state.searchQuery) {
+    const q = state.searchQuery.toLowerCase();
+    list = list.filter(s =>
+      s.title.toLowerCase().includes(q) ||
+      s.content.toLowerCase().includes(q) ||
+      (s.note && s.note.toLowerCase().includes(q))
+    );
+  }
+
+  const sort = document.getElementById('sortSelect').value;
+  if (sort === 'newest') list.sort((a, b) => b.createdAt - a.createdAt);
+  else if (sort === 'oldest') list.sort((a, b) => a.createdAt - b.createdAt);
+  else if (sort === 'name') list.sort((a, b) => a.title.localeCompare(b.title, 'zh'));
+  else if (sort === 'fav') list.sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0));
+
+  return list;
+}
+
+function renderSidebar() {
+  const list = document.getElementById('categoryList');
+  list.innerHTML = '';
+
+  state.categories.forEach(cat => {
+    const count = state.scripts.filter(s => s.categoryId === cat.id).length;
+    const div = document.createElement('div');
+    div.className = 'cat-item' + (state.currentFilter === cat.id ? ' active' : '');
+    div.onclick = () => filterByCategory(cat.id);
+    div.innerHTML = `
+      <span class="cat-dot" style="background:${cat.color}"></span>
+      <span>${cat.icon} ${cat.name}</span>
+      <span class="cat-count">${count}</span>
+    `;
+    list.appendChild(div);
+  });
+
+  document.getElementById('count-all').textContent = state.scripts.length;
+  document.getElementById('count-fav').textContent = state.scripts.filter(s => s.favorite).length;
+  document.getElementById('headerStats').textContent = `共 ${state.scripts.length} 条话术`;
+
+  document.getElementById('cat-all').className = 'cat-item' + (state.currentFilter === 'all' ? ' active' : '');
+  document.getElementById('cat-fav').className = 'cat-item' + (state.currentFilter === 'fav' ? ' active' : '');
+}
+
+function renderCards() {
+  const container = document.getElementById('cardContainer');
+  const scripts = getFilteredScripts();
+
+  container.className = state.view === 'grid' ? 'cards-grid' : 'cards-list';
+
+  if (scripts.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">${state.searchQuery ? '没有匹配的话术' : '暂无话术'}</div>
+        <div class="empty-sub">${state.searchQuery ? '换个关键词试试' : '点击右上角「添加话术」开始添加'}</div>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = scripts.map(script => {
+    const cat = getCategoryById(script.categoryId);
+    const date = new Date(script.createdAt).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+    return `
+      <div class="card" onclick="openDetail('${script.id}')">
+        <button class="star-btn ${script.favorite ? 'active' : ''}" onclick="toggleFav(event,'${script.id}')" title="收藏">
+          ${script.favorite ? '★' : '☆'}
+        </button>
+        <div class="card-header">
+          ${cat ? `<span class="card-tag" style="background:${cat.color}">${cat.icon} ${cat.name}</span>` : ''}
+          <div class="card-title">${escHtml(script.title)}</div>
+        </div>
+        <div class="card-text">${escHtml(script.content)}</div>
+        <div class="card-footer">
+          <div class="card-meta">
+            <span>📅 ${date}</span>
+            ${script.note ? `<span title="${escHtml(script.note)}">📝 ${escHtml(script.note.slice(0, 15))}${script.note.length > 15 ? '…' : ''}</span>` : ''}
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" onclick="copyScript(event,'${script.id}')" title="复制话术">📋</button>
+            <button class="icon-btn" onclick="openEditModal(event,'${script.id}')" title="编辑">✏️</button>
+            <button class="icon-btn delete" onclick="deleteScript(event,'${script.id}')" title="删除">🗑️</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderAll() {
+  renderSidebar();
+  renderCards();
+}
+
+// ============ ACTIONS ============
+function filterByCategory(id) {
+  state.currentFilter = id;
+  renderAll();
+}
+
+function handleSearch() {
+  state.searchQuery = document.getElementById('searchInput').value.trim();
+  renderCards();
+}
+
+function setView(v) {
+  state.view = v;
+  document.getElementById('gridViewBtn').className = 'view-btn' + (v === 'grid' ? ' active' : '');
+  document.getElementById('listViewBtn').className = 'view-btn' + (v === 'list' ? ' active' : '');
+  renderCards();
+}
+
+function toggleFav(e, id) {
+  e.stopPropagation();
+  const s = state.scripts.find(s => s.id === id);
+  if (s) { s.favorite = !s.favorite; saveData(); renderAll(); }
+}
+
+function copyScript(e, id) {
+  e.stopPropagation();
+  const s = state.scripts.find(s => s.id === id);
+  if (s) {
+    navigator.clipboard.writeText(s.content).then(() => showToast('✅ 话术已复制到剪贴板'));
+  }
+}
+
+function deleteScript(e, id) {
+  e.stopPropagation();
+  if (!confirm('确定删除这条话术吗？')) return;
+  state.scripts = state.scripts.filter(s => s.id !== id);
+  saveData();
+  renderAll();
+  showToast('🗑️ 已删除');
+}
+
+// ============ MODALS ============
+function openAddModal() {
+  document.getElementById('modalTitle').textContent = '添加话术';
+  document.getElementById('editingId').value = '';
+  document.getElementById('scriptTitle').value = '';
+  document.getElementById('scriptContent').value = '';
+  document.getElementById('scriptNote').value = '';
+  populateCatSelect('');
+  showModal('addModal');
+}
+
+function openEditModal(e, id) {
+  e.stopPropagation();
+  const s = state.scripts.find(s => s.id === id);
+  if (!s) return;
+  document.getElementById('modalTitle').textContent = '编辑话术';
+  document.getElementById('editingId').value = id;
+  document.getElementById('scriptTitle').value = s.title;
+  document.getElementById('scriptContent').value = s.content;
+  document.getElementById('scriptNote').value = s.note || '';
+  populateCatSelect(s.categoryId);
+  showModal('addModal');
+}
+
+function populateCatSelect(selectedId) {
+  const sel = document.getElementById('scriptCategory');
+  sel.innerHTML = '<option value="">请选择分类</option>';
+  state.categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.id;
+    opt.textContent = `${cat.icon} ${cat.name}`;
+    if (cat.id === selectedId) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function saveScript() {
+  const title = document.getElementById('scriptTitle').value.trim();
+  const catId = document.getElementById('scriptCategory').value;
+  const content = document.getElementById('scriptContent').value.trim();
+  const note = document.getElementById('scriptNote').value.trim();
+  const editingId = document.getElementById('editingId').value;
+
+  if (!title) { showToast('⚠️ 请填写话术标题'); return; }
+  if (!catId) { showToast('⚠️ 请选择分类'); return; }
+  if (!content) { showToast('⚠️ 请填写话术内容'); return; }
+
+  if (editingId) {
+    const s = state.scripts.find(s => s.id === editingId);
+    if (s) { s.title = title; s.categoryId = catId; s.content = content; s.note = note; }
+    showToast('✅ 话术已更新');
+  } else {
+    state.scripts.push({
+      id: 's' + Date.now(),
+      title, categoryId: catId, content, note,
+      favorite: false, createdAt: Date.now()
+    });
+    showToast('✅ 话术已添加');
+  }
+
+  saveData();
+  closeModal('addModal');
+  renderAll();
+}
+
+function openDetail(id) {
+  const s = state.scripts.find(s => s.id === id);
+  if (!s) return;
+  const cat = getCategoryById(s.categoryId);
+  const date = new Date(s.createdAt).toLocaleString('zh-CN');
+
+  document.getElementById('detailContent').innerHTML = `
+    ${cat ? `<span class="detail-cat-tag" style="background:${cat.color}">${cat.icon} ${cat.name}</span>` : ''}
+    <div class="detail-title">${escHtml(s.title)}</div>
+    <div class="detail-text">${escHtml(s.content)}</div>
+    ${s.note ? `<div style="font-size:13px;color:#636e72;margin-bottom:8px">📝 ${escHtml(s.note)}</div>` : ''}
+    <div class="detail-meta">
+      <span>📅 添加时间：${date}</span>
+    </div>
+    <div class="detail-actions">
+      <button class="btn btn-primary" onclick="copyFromDetail('${s.id}')">📋 复制话术</button>
+      <button class="btn btn-outline" onclick="openEditFromDetail('${s.id}')">✏️ 编辑</button>
+      <button class="btn btn-outline" onclick="toggleFavFromDetail('${s.id}')">
+        ${s.favorite ? '★ 取消收藏' : '☆ 加入收藏'}
+      </button>
+    </div>
+  `;
+  showModal('detailModal');
+}
+
+function copyFromDetail(id) {
+  const s = state.scripts.find(s => s.id === id);
+  if (s) navigator.clipboard.writeText(s.content).then(() => showToast('✅ 已复制到剪贴板'));
+}
+
+function openEditFromDetail(id) {
+  closeModal('detailModal');
+  setTimeout(() => openEditModal({ stopPropagation: () => {} }, id), 200);
+}
+
+function toggleFavFromDetail(id) {
+  const s = state.scripts.find(s => s.id === id);
+  if (s) {
+    s.favorite = !s.favorite;
+    saveData();
+    renderAll();
+    openDetail(id);
+  }
+}
+
+// Category modal
+function openCategoryModal() {
+  document.getElementById('catName').value = '';
+  state.selectedColor = COLORS[0];
+  state.selectedIcon = ICONS[0];
+  renderColorPicker();
+  renderIconPicker();
+  showModal('catModal');
+}
+
+function renderColorPicker() {
+  const el = document.getElementById('colorPicker');
+  el.innerHTML = COLORS.map(c => `
+    <div class="color-option ${c === state.selectedColor ? 'selected' : ''}"
+      style="background:${c}" onclick="selectColor('${c}')"></div>
+  `).join('');
+}
+
+function renderIconPicker() {
+  const el = document.getElementById('iconPicker');
+  el.innerHTML = ICONS.map(ic => `
+    <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+      border-radius:8px;cursor:pointer;font-size:18px;border:2px solid ${ic === state.selectedIcon ? '#ff4757' : 'transparent'};
+      background:${ic === state.selectedIcon ? '#fff5f5' : '#f1f2f6'};transition:all 0.15s"
+      onclick="selectIcon('${ic}')">${ic}</div>
+  `).join('');
+}
+
+function selectColor(c) {
+  state.selectedColor = c;
+  renderColorPicker();
+}
+
+function selectIcon(ic) {
+  state.selectedIcon = ic;
+  renderIconPicker();
+}
+
+function saveCategory() {
+  const name = document.getElementById('catName').value.trim();
+  if (!name) { showToast('⚠️ 请填写分类名称'); return; }
+
+  state.categories.push({
+    id: 'c' + Date.now(),
+    name,
+    color: state.selectedColor,
+    icon: state.selectedIcon,
+    createdAt: Date.now()
+  });
+  saveData();
+  closeModal('catModal');
+  renderAll();
+  showToast('✅ 分类已创建');
+}
+
+// ============ UTILS ============
+function showModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+function handleOverlayClick(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============ GENERATOR ============
+let generatedScripts = [];
+
+function updateSeasonLabels() {
+  ['all','winter','summer'].forEach(v => {
+    const el = document.getElementById('sLabel-' + v);
+    const checked = document.querySelector(`input[name="genSeason"][value="${v}"]`).checked;
+    el.style.borderColor = checked ? '#ff4757' : '#dfe4ea';
+    el.style.background = checked ? '#fff5f5' : '';
+    el.style.color = checked ? '#ff4757' : '';
+    el.style.fontWeight = checked ? '600' : '';
+  });
+}
+
+function getColorCopy(color, season) {
+  if (!color) return { intro: '', skinTone: '', height: '', fashion: '', seasonal: '', buyGuide: '' };
+
+  const darkKeys    = ['黑','深','墨','炭','咖','棕','酒红','暗','复古','玄','苍','黛'];
+  const lightKeys   = ['白','米','奶','象牙','浅','珍珠','香槟','米白','莫兰迪','霜','月白','雪','素'];
+  const warmKeys    = ['红','橙','黄','驼','焦糖','杏','卡其','姜黄','砖红','土','赤','丹','橘','琥珀','金'];
+  const coolKeys    = ['蓝','绿','灰','紫','薄荷','冰','莫兰迪','烟灰','雾','青','竹','碧','翠','靛','石板'];
+  const pinkKeys    = ['粉','玫瑰','裸','豆沙','脏粉','樱花','藕','胭脂','桃','茱萸'];
+  const neutralKeys = ['奶茶','可可','拿铁','榛果','燕麦','驼','沙','芝麻','大地','裸棕','暖驼'];
+  // 传统色名识别
+  const traditionalKeys = ['霜白','月白','烟灰','竹青','茶色','石榴','琉璃','黛蓝','胭脂','藕荷','松石','湖蓝','水墨','芥黄','古铜','赭石','缃色','黄白油','群青','朱砂'];
+
+  const is = arr => arr.some(k => color.includes(k));
+  const isDark        = is(darkKeys);
+  const isLight       = is(lightKeys);
+  const isWarm        = is(warmKeys);
+  const isCool        = is(coolKeys);
+  const isPink        = is(pinkKeys);
+  const isNeutral     = is(neutralKeys);
+  const isTraditional = is(traditionalKeys);
+
+  // 显肤色
+  let skinTone = '';
+  if (isTraditional)
+    skinTone = `${color}这个颜色来自中国传统色谱，自带文化底蕴。它对肤色极为友好——中国女性的肤色与这类传统色天生相配，背上它就像是把东方的含蓄之美穿在身上，整个人的气质立刻柔和温润，皮肤也显得更加白皙透亮！`;
+  else if (isDark)
+    skinTone = `${color}深色系最显白！不管你是冷白皮、暖白皮还是小麦色，背上深色系都会反衬得肤色更亮更白，对比感超强，整个人气质立刻提升一个档次。`;
+  else if (isPink)
+    skinTone = `${color}这个粉调色系真的超级显气色！它会把你脸上的气色衬得更粉嫩，让肤色看起来白里透红，整个人感觉都年轻了好几岁，气质又甜又美！`;
+  else if (isNeutral || isWarm)
+    skinTone = `${color}暖色调最提气色！它能把肤色衬得更白皙通透，特别是黄皮宝宝——很多颜色会让黄皮看起来更显黄，但${color}刚好压住黄调，反而让皮肤看起来更干净更白！`;
+  else if (isCool)
+    skinTone = `${color}冷色调真的超显白！冷白皮姐妹背上直接起飞，冰冰凉凉的高级感扑面而来，小麦色背上也不违和，反而显出一种特别有个性的时髦感！`;
+  else if (isLight)
+    skinTone = `${color}浅色系太显嫩了！浅色会把整体的气质都轻盈化，肤色看起来更透亮，特别是在阳光下，整个人发光发亮，美得毫不费力！`;
+  else
+    skinTone = `${color}这个颜色超级不挑肤色——冷白皮背上清冷高级，暖白皮背上柔美温柔，小麦色背上更是时髦感满满，真的谁背谁好看！`;
+
+  // 显高显瘦
+  let height = '';
+  if (isDark)
+    height = `而且深色系在视觉上有收缩效果，背上${color}整个人都显瘦显高，特别是小个子姐妹，背上深色包包会显得腿更长，身型比例更好！`;
+  else if (isLight || isPink)
+    height = `浅色系会制造视觉上的轻盈感，背上${color}整体造型不会显得沉重，反而让人看起来更纤细高挑，特别适合娇小的姐妹！`;
+  else
+    height = `${color}这个颜色视觉上有延伸感，搭配对了，整个人的比例会显得更高挑更纤细，小个子姐妹背上绝对加分，高个子背上更是气场全开！`;
+
+  // 时尚感
+  let fashion = '';
+  if (isTraditional)
+    fashion = `${color}这两年「新中式」风潮席卷全球，中国传统色系成为了最顶级的时尚语言——从巴黎时装周到国内各大品牌，都在挖掘这种带有东方底蕴的色彩。背这个颜色，你不是在追流行，你是在引领潮流！`;
+  else if (isNeutral)
+    fashion = `${color}现在是时尚界最火的「静奢风」核心配色，各大时装周上到处都能见到这个色系，穿搭博主人手必备！它不像鲜艳色那么高调，但懂的人看到都会觉得你真的很会穿！`;
+  else if (isDark)
+    fashion = `${color}是经典中的经典，永远不会过时！无论哪一季，深色系永远是高端大牌最爱用的配色，低调而奢华，是真正懂时尚的人才会选的颜色！`;
+  else if (isPink)
+    fashion = `${color}今年超流行！从巴黎到米兰，各大品牌的秀场上粉调包包刷屏不断。它不是那种粉嫩嫩的幼稚粉，而是一种成熟的、有质感的粉——甜而不腻，时髦又优雅！`;
+  else if (isWarm)
+    fashion = `${color}暖色系今年直接封神！时尚博主、潮流买手清一色都在推这个色系，它能给任何穿搭增加温度感和高级感，是这两年最值得入手的流行色之一！`;
+  else if (isCool)
+    fashion = `${color}冷色调今年特别流行，走在街上背这个颜色回头率超高！它给人一种清醒独立的时髦感，很多有品味的姐妹都特别偏爱这个色系！`;
+  else
+    fashion = `${color}是今年的流行色趋势之一，时装博主和明星都在选这个颜色，跟着潮流走，背上它你就是街上最靓的那个！`;
+
+  // 季节穿搭
+  let seasonal = '';
+  if (season === 'winter') {
+    if (isDark || isNeutral || isWarm)
+      seasonal = `秋冬穿搭的话，${color}简直是神仙配色！配羽绒服、大衣、羊羔绒外套，整体造型立刻高级起来。特别是米色/驼色/奶茶色大衣，配上${color}包包，从头到脚都是"老钱风"，走在街上气场两米八！通勤约会都能拿捏！`;
+    else
+      seasonal = `秋冬穿搭，${color}背出去特别抢眼！深色系的大衣、毛衣配上${color}，形成亮眼的颜色对比，整体造型有层次感，绝对比纯色搭配更时髦！裹得严实也能靠包包出彩！`;
+  } else if (season === 'summer') {
+    if (isPink || isLight || isCool)
+      seasonal = `春夏穿搭的话，${color}简直绝了！配碎花连衣裙、白色衬衫、法式蕾丝裙……清爽又浪漫，拍照出片率超高！特别是去公园、咖啡馆、海边，背上这个颜色，随手一拍就是杂志封面的感觉！`;
+    else
+      seasonal = `春夏穿搭，${color}意外超百搭！搭纯色连衣裙、阔腿裤、轻薄外套都很和谐，不会觉得颜色太沉。而且春夏出门本来就爱拍照，${color}这个颜色上镜感很强，出片率极高，姐妹们一定要试试！`;
+  } else {
+    if (isDark || isNeutral)
+      seasonal = `四季都能背！秋冬配大衣、针织衫，${color}低调高级，整体造型温暖又有质感；春夏配连衣裙、薄外套，${color}清爽时髦，减龄又好看。真正的一包用一年，买了就是赚到！`;
+    else if (isPink || isLight)
+      seasonal = `春夏背${color}，配小裙子、白衬衫，甜美清新，出片率极高；秋冬配大衣毛衣，反而多了一份温柔减龄的气质，不会显老气。一包四季百搭，太值了！`;
+    else
+      seasonal = `这款颜色真的四季都能驾驭！春夏配清爽单品显轻盈，秋冬配厚重外套反而多了点亮色，整体造型不沉闷。一年四季不用换包，实用性拉满！`;
+  }
+
+  // 购买引导
+  let buyGuide = '';
+  if (isTraditional)
+    buyGuide = `${color}这类传统色系的包，每次上新库存都很有限——因为懂这个颜色的人都知道它的稀缺性，往往一上架就被熟客秒掉。有眼光的姐妹，看到就不要犹豫了！`;
+  else if (isDark)
+    buyGuide = `深色系是永远不会出错的颜色，买包买深色，绝对不踩雷，这是穿搭达人的共识！`;
+  else if (isPink || isLight)
+    buyGuide = `${color}这个颜色库存向来不多，因为喜欢这个色的姐妹真的太多了！喜欢的一定要赶紧下手，颜色断货了就要等很久！`;
+  else if (isNeutral || isWarm)
+    buyGuide = `${color}是这两年卖得最好的颜色之一，很多姐妹买了还会回来买第二个色——一旦入手就会爱上这个色系！`;
+  else
+    buyGuide = `${color}这个颜色真的越看越好看，很多第一眼觉得普通的姐妹，收到实物之后都说比图片漂亮十倍！犹豫的话先收藏，等你反应过来库存可能就没了哦！`;
+
+  return { intro: color, skinTone, height, fashion, seasonal, buyGuide };
+}
+
+// ===== API KEY =====
+function getApiKey() { return localStorage.getItem('claudeApiKey') || ''; }
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { showToast('⚠️ 请填写 API 密钥'); return; }
+  localStorage.setItem('claudeApiKey', key);
+  showToast('✅ API 密钥已保存');
+}
+
+// ===== IMAGE HANDLING =====
+let uploadedImages = []; // [{ base64, mimeType, label }]
+const IMG_LABELS = ['整体图', '走线细节', '五金细节', '内里', '背面', '其他细节'];
+const MAX_IMGS = 6;
+
+function handleImgSelect(e) {
+  const files = [...e.target.files];
+  files.forEach(f => { if (f.type.startsWith('image/')) loadImg(f); });
+  e.target.value = '';
+}
+function handleImgDrop(e) {
+  e.preventDefault();
+  document.getElementById('imgDropZone').style.borderColor = '#d2d2d7';
+  document.getElementById('imgDropZone').style.background = '#f5f5f7';
+  const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+  files.forEach(f => loadImg(f));
+}
+function loadImg(file) {
+  if (uploadedImages.length >= MAX_IMGS) { showToast(`最多上传 ${MAX_IMGS} 张图片`); return; }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const dataUrl = ev.target.result;
+    const idx = uploadedImages.length;
+    uploadedImages.push({ base64: dataUrl.split(',')[1], mimeType: file.type || 'image/jpeg', dataUrl, label: IMG_LABELS[idx] || '细节图' });
+    renderImgGrid();
+  };
+  reader.readAsDataURL(file);
+}
+function removeImg(idx) {
+  uploadedImages.splice(idx, 1);
+  // Re-assign labels
+  uploadedImages.forEach((img, i) => { img.label = IMG_LABELS[i] || '细节图'; });
+  renderImgGrid();
+}
+function renderImgGrid() {
+  const grid = document.getElementById('imgGrid');
+  const placeholder = document.getElementById('imgPlaceholder');
+  const dropZone = document.getElementById('imgDropZone');
+  grid.innerHTML = uploadedImages.map((img, i) => `
+    <div style="position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:#ebebed">
+      <img src="${img.dataUrl}" style="width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.48);padding:4px 8px">
+        <select onchange="uploadedImages[${i}].label=this.value" onclick="event.stopPropagation()"
+          style="width:100%;background:transparent;border:none;color:white;font-size:11px;outline:none;cursor:pointer">
+          ${IMG_LABELS.map(l => `<option value="${l}" ${l===img.label?'selected':''}>${l}</option>`).join('')}
+        </select>
+      </div>
+      <button onclick="event.stopPropagation();removeImg(${i})"
+        style="position:absolute;top:5px;right:5px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.5);color:white;border:none;cursor:pointer;font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+  `).join('');
+  // Show/hide add zone
+  const full = uploadedImages.length >= MAX_IMGS;
+  dropZone.style.display = full ? 'none' : 'block';
+  placeholder.innerHTML = uploadedImages.length === 0
+    ? `<div style="font-size:32px;margin-bottom:6px">＋</div>点击 或 拖拽添加图片<br><span style="font-size:11px;color:#c7c7cc">整体图 / 走线细节 / 五金 / 内里，最多 ${MAX_IMGS} 张</span>`
+    : `<div style="font-size:20px;margin-bottom:4px">＋</div><span style="font-size:12px">继续添加（${uploadedImages.length}/${MAX_IMGS}）</span>`;
+  document.getElementById('imgAnalysisTag').style.display = 'none';
+}
+function clearImg() {
+  uploadedImages = [];
+  document.getElementById('imgFileInput').value = '';
+  document.getElementById('imgGrid').innerHTML = '';
+  document.getElementById('imgDropZone').style.display = 'block';
+  document.getElementById('imgPlaceholder').innerHTML = `<div style="font-size:32px;margin-bottom:6px">＋</div>点击 或 拖拽添加图片<br><span style="font-size:11px;color:#c7c7cc">整体图 / 走线细节 / 五金 / 内里，最多 ${MAX_IMGS} 张</span>`;
+  document.getElementById('imgAnalysisTag').style.display = 'none';
+}
+
+// ===== CLAUDE API CALL =====
+async function callClaudeAPI(systemPrompt, userText, images) {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error('请先在账号管理中填写 Claude API 密钥');
+
+  const userContent = [];
+  // Support array of images or single legacy object
+  const imgs = Array.isArray(images) ? images : (images ? [images] : []);
+  imgs.forEach((img, i) => {
+    if (imgs.length > 1) userContent.push({ type: 'text', text: `【图片${i+1}：${img.label || '产品图'}】` });
+    userContent.push({ type: 'image', source: { type: 'base64', media_type: img.mimeType, data: img.base64 } });
+  });
+  userContent.push({ type: 'text', text: userText });
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-opus-4-6',
+      max_tokens: 4096,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userContent }]
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API 请求失败 (${resp.status})`);
+  }
+  const data = await resp.json();
+  return data.content[0].text;
+}
+
+// ===== HANDLE GENERATE (routes to AI or template) =====
+async function handleGenerate() {
+  const apiKey = getApiKey();
+  if (uploadedImages.length > 0 && apiKey) {
+    await generateWithAI();
+  } else if (uploadedImages.length > 0 && !apiKey) {
+    showToast('⚠️ 请先在账号管理中填写 API 密钥才能使用图片分析');
+  } else {
+    generateScripts();
+  }
+}
+
+// ===== AI-POWERED GENERATION FROM IMAGE =====
+async function generateWithAI() {
+  const name = document.getElementById('genName').value.trim() || '包';
+  const material = document.getElementById('genMaterial').value.trim();
+  const price = document.getElementById('genPrice').value.trim();
+  const origPrice = document.getElementById('genOrigPrice').value.trim();
+  const stock = document.getElementById('genStock').value.trim();
+  const feature = document.getElementById('genFeature').value.trim();
+  const color = document.getElementById('genColor').value.trim();
+  const capacity = document.getElementById('genCapacity').value.trim();
+  const season = document.querySelector('input[name="genSeason"]:checked')?.value || 'all';
+
+  if (!price) { showToast('⚠️ 请填写直播价'); return; }
+
+  // Show loading state
+  document.querySelectorAll('#panel-gen button').forEach(b => b.disabled = true);
+  document.getElementById('genResult').style.display = 'block';
+  const imgCount = uploadedImages.length;
+  document.getElementById('genCards').innerHTML = `<div style="text-align:center;padding:40px;color:#6e6e73"><div style="font-size:28px;margin-bottom:10px">🤖</div>AI 正在分析 ${imgCount} 张图片（走线、五金、皮质、整体…），请稍候</div>`;
+  document.getElementById('saveAllBtn').style.display = 'none';
+  document.getElementById('downloadBtn').style.display = 'none';
+  document.getElementById('saveFullBtn').style.display = 'none';
+
+  try {
+    const seasonLabel = { all:'四季通用', winter:'秋冬穿搭', summer:'春夏穿搭' }[season];
+    const systemPrompt = `你是一位顶级电商直播话术专家，专精于女包皮具类目。你能通过看产品实物图片，捕捉真实的皮质光泽、纹理、做工细节、颜色层次，并将这些视觉感受转化成有感染力的直播话术。
+
+核心要求：
+1. 每段话术必须有自己的"视角"和"情绪"，不能是同一个模板换词
+2. 引用图片中真实看到的具体细节（皮面光泽、纹理、边缘处理、五金质感等）
+3. 语言风格像真人说话，有节奏感，有停顿，有互动感
+4. 绝对禁止排列组合式模板套路，每节都要有新的切入角度
+5. 使用中文，语气亲切自然，针对女性消费者`;
+
+    const imgDesc = uploadedImages.map((img, i) => `图片${i+1}（${img.label}）`).join('、');
+    const userText = `产品信息：
+- 名称：${name}
+- 材质：${material || '请根据图片判断'}
+- 直播价：${price}元
+- 原价/对比价：${origPrice ? origPrice+'元' : '未填写'}
+- 库存：${stock || '有限'}
+- 核心卖点：${feature || '请根据图片判断'}
+- 颜色：${color || '请根据图片描述'}
+- 容量：${capacity || '未填写'}
+- 穿搭季节：${seasonLabel}
+
+我提供了 ${uploadedImages.length} 张图片：${imgDesc}。
+请综合所有图片，深度分析：
+• 整体廓形与风格气质（从整体图）
+• 皮面光泽、纹理、颜色层次（整体图 + 细节图）
+• 走线密度、线迹均匀度、工艺等级（走线细节图）
+• 五金材质感、光泽、品质印象（五金细节图）
+• 内里材质、做工、细节处理（内里图）
+每段话术必须引用对应图片中真实可见的具体细节，不能凭空虚构。
+
+生成以下8段直播话术（JSON数组返回，不要有其他文字）：
+1. 【开场·视觉钩子】：从所有图片中最打眼的一个具体细节切入，引发好奇
+2. 【皮质体验】：综合整体图+细节图，描述皮料光泽/纹理/触感，引导观众想象
+3. 【走线五金工艺】：专门针对走线细节图+五金图，放大讲工艺价值，对比市面劣质做法
+4. 【颜色·穿搭场景】：基于图片真实颜色，写${seasonLabel}搭配，要有具体画面感
+5. 【价值对比】：用图片里的真实细节，说清楚为什么${price}元值，真实不鸡血
+6. 【人感·真心话】：主播第一人称分享对这款包某个具体细节的真实感受，像朋友聊天
+7. 【互动催单】：轻松自然催单，引导评论区互动，不喊麦
+8. 【收场·预约回播】：温情收场，预告下次
+
+JSON格式（8个对象）：
+[{"title":"【xxx】标题","categoryId":"c7","content":"话术正文","note":"适用场景"},...]
+
+categoryId：c7=开场暖场, c1=皮料卖点, c2=内里工艺, c4=对比话术, c5=风格理念, c3=稀缺促单, c11=收场, c12=人感话术, c13=新中式美学`;
+
+    const raw = await callClaudeAPI(systemPrompt, userText, uploadedImages);
+
+    // Extract JSON from response
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) throw new Error('AI 返回格式异常，请重试');
+    generatedScripts = JSON.parse(jsonMatch[0]);
+
+    // Update tag
+    document.getElementById('imgAnalysisTag').textContent = `✅ 已基于 ${uploadedImages.length} 张图片生成专属话术`;
+    document.getElementById('imgAnalysisTag').style.display = 'block';
+
+    renderGenCards();
+  } catch(err) {
+    document.getElementById('genCards').innerHTML = `<div style="text-align:center;padding:20px;color:#e8224e">❌ ${escHtml(err.message)}</div>`;
+  } finally {
+    document.querySelectorAll('#panel-gen button').forEach(b => b.disabled = false);
+  }
+}
+
+// ===== NOTE GENERATION =====
+async function generateNote() {
+  const name = document.getElementById('genName').value.trim();
+  const price = document.getElementById('genPrice').value.trim();
+  const material = document.getElementById('genMaterial').value.trim();
+  const color = document.getElementById('genColor').value.trim();
+  const feature = document.getElementById('genFeature').value.trim();
+  const season = document.querySelector('input[name="genSeason"]:checked')?.value || 'all';
+  const apiKey = getApiKey();
+
+  if (!name) { showToast('⚠️ 请填写产品名称'); return; }
+  if (!apiKey) { showToast('⚠️ 请先在账号管理中填写 API 密钥'); return; }
+
+  document.querySelectorAll('#panel-gen button').forEach(b => b.disabled = true);
+  document.getElementById('genResult').style.display = 'block';
+  document.getElementById('genCards').innerHTML = '<div style="text-align:center;padding:40px;color:#6e6e73"><div style="font-size:28px;margin-bottom:10px">📝</div>正在生成小红书笔记…</div>';
+  document.getElementById('saveAllBtn').style.display = 'none';
+  document.getElementById('downloadBtn').style.display = 'none';
+  document.getElementById('saveFullBtn').style.display = 'none';
+
+  try {
+    const seasonLabel = { all:'四季通用', winter:'秋冬', summer:'春夏' }[season];
+    const systemPrompt = `你是一位小红书爆款内容创作者，专注于时尚女包种草。你的笔记能让读者产生强烈的购买冲动，但不显得刻意，是那种"真实分享"的感觉。`;
+    const userText = `请为以下产品生成3篇风格各异的小红书种草笔记：
+- 产品：${name}
+- 材质：${material || '优质皮料'}
+- 颜色：${color || '多色可选'}
+- 核心卖点：${feature || '高品质皮具'}
+- 价格：${price ? price+'元' : ''}
+- 季节：${seasonLabel}
+${uploadedImages.length > 0 ? `（我会同时发给你 ${uploadedImages.length} 张产品图片，请根据图片真实视觉细节写笔记）` : ''}
+
+3篇笔记风格分别是：
+1. 开箱晒单风（真实买家分享，有惊喜感）
+2. 穿搭搭配风（以搭配为核心，带入生活场景）
+3. 干货测评风（理性分析材质做工，帮读者做决策）
+
+每篇格式：
+- 标题：15字内，带emoji，制造好奇心
+- 正文：250-350字，分段，有emoji，自然流畅，结尾留钩子
+- 话题标签：5个相关话题
+
+用JSON数组返回（3个对象）：
+[{"style":"开箱晒单","title":"xxx","content":"xxx","tags":["#女包","..."]}]`;
+
+    const raw = await callClaudeAPI(systemPrompt, userText, uploadedImages.length > 0 ? uploadedImages : null);
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) throw new Error('AI 返回格式异常，请重试');
+    const notes = JSON.parse(jsonMatch[0]);
+
+    const catColors = { '开箱晒单':'#e17055', '穿搭搭配风':'#fd79a8', '干货测评风':'#6c5ce7', '穿搭搭配':'#fd79a8', '干货测评':'#6c5ce7' };
+    document.getElementById('genCards').innerHTML = notes.map((n, i) => `
+      <div style="background:#fff9f5;border:1px solid #ffeaa7;border-radius:10px;padding:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span style="background:${catColors[n.style]||'#e17055'};color:white;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500">${n.style}</span>
+          <span style="font-size:14px;font-weight:600;color:#2f3542;flex:1">${escHtml(n.title)}</span>
+          <button onclick="copyNote(${i})" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid #dfe4ea;background:white;cursor:pointer;color:#636e72">📋 复制</button>
+        </div>
+        <div style="font-size:13px;color:#636e72;line-height:1.8;white-space:pre-wrap;max-height:160px;overflow-y:auto">${escHtml(n.content)}</div>
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${(n.tags||[]).map(t=>`<span style="font-size:12px;color:#e17055;background:#fff0e6;padding:2px 8px;border-radius:12px">${escHtml(t)}</span>`).join('')}</div>
+      </div>
+    `).join('');
+    document.getElementById('genCount').textContent = notes.length;
+    document.getElementById('genResult').style.display = 'block';
+
+    // Store notes for copy
+    window.generatedNotes = notes;
+  } catch(err) {
+    document.getElementById('genCards').innerHTML = `<div style="text-align:center;padding:20px;color:#e8224e">❌ ${escHtml(err.message)}</div>`;
+  } finally {
+    document.querySelectorAll('#panel-gen button').forEach(b => b.disabled = false);
+  }
+}
+
+function copyNote(i) {
+  const n = window.generatedNotes?.[i];
+  if (!n) return;
+  const text = `${n.title}\n\n${n.content}\n\n${(n.tags||[]).join(' ')}`;
+  navigator.clipboard.writeText(text).then(() => showToast('✅ 笔记已复制到剪贴板'));
+}
+
+function renderGenCards() {
+  const catMap = { c1:'皮料卖点', c2:'内里工艺', c3:'稀缺促单', c4:'对比话术', c5:'风格理念', c6:'搭配场景', c7:'开场暖场', c9:'互动留人', c11:'收场', c12:'人感话术' };
+  const catColors = { c1:'#c0392b', c2:'#2980b9', c3:'#e67e22', c4:'#27ae60', c5:'#8e44ad', c6:'#16a085', c7:'#ff4757', c9:'#2ed573', c11:'#636e72', c12:'#e84393', c13:'#b5651d' };
+  const container = document.getElementById('genCards');
+  container.innerHTML = generatedScripts.map((s, i) => `
+    <div style="background:#f8f9fa;border:1px solid #dfe4ea;border-radius:10px;padding:14px;position:relative">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="background:${catColors[s.categoryId]||'#636e72'};color:white;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500">${catMap[s.categoryId]||''}</span>
+        <span style="font-size:14px;font-weight:600;color:#2f3542;flex:1">${escHtml(s.title)}</span>
+        <button onclick="saveSingleGen(${i})" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid #dfe4ea;background:white;cursor:pointer;color:#636e72" title="保存这条">💾 保存</button>
+      </div>
+      <div style="font-size:13px;color:#636e72;line-height:1.8;white-space:pre-wrap">${escHtml(s.content)}</div>
+    </div>
+  `).join('');
+  document.getElementById('genCount').textContent = generatedScripts.length;
+  document.getElementById('genResult').style.display = 'block';
+  document.getElementById('saveAllBtn').style.display = 'block';
+  document.getElementById('downloadBtn').style.display = 'block';
+  document.getElementById('saveFullBtn').style.display = 'block';
+}
+
+function openGenModal() {
+  switchTab('gen');
+}
+
+function switchTab(tab) {
+  const isGen = tab === 'gen';
+  document.getElementById('panel-gen').style.display = isGen ? 'block' : 'none';
+  document.getElementById('panel-library').style.display = isGen ? 'none' : 'block';
+  const tGen = document.getElementById('tab-gen');
+  const tLib = document.getElementById('tab-library');
+  const activeStyle = { color: '#e8224e', borderBottom: '2px solid #e8224e', fontWeight: '600' };
+  const inactiveStyle = { color: '#6e6e73', borderBottom: '2px solid transparent', fontWeight: '500' };
+  Object.assign(tGen.style, isGen ? activeStyle : inactiveStyle);
+  Object.assign(tLib.style, isGen ? inactiveStyle : activeStyle);
+}
+
+function clearGenForm() {
+  ['genName','genMaterial','genPrice','genOrigPrice','genStock','genFeature','genColor','genCapacity'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.querySelector('input[name="genSeason"][value="all"]').checked = true;
+  updateSeasonLabels();
+  clearImg();
+  document.getElementById('genResult').style.display = 'none';
+  generatedScripts = [];
+}
+
+function generateScripts() {
+  const name = document.getElementById('genName').value.trim();
+  const material = document.getElementById('genMaterial').value.trim();
+  const price = document.getElementById('genPrice').value.trim();
+  const origPrice = document.getElementById('genOrigPrice').value.trim();
+  const stock = document.getElementById('genStock').value.trim();
+  const feature = document.getElementById('genFeature').value.trim();
+  const color = document.getElementById('genColor').value.trim();
+  const capacity = document.getElementById('genCapacity').value.trim();
+  const season = document.querySelector('input[name="genSeason"]:checked')?.value || 'all';
+
+  if (!name) { showToast('⚠️ 请填写产品名称'); return; }
+  if (!material) { showToast('⚠️ 请填写材质'); return; }
+  if (!price) { showToast('⚠️ 请填写直播价'); return; }
+
+  const origPriceTxt = origPrice ? `${origPrice}元` : '市场价四位数以上';
+  const stockTxt = stock ? `仅剩${stock}件` : '库存有限';
+  const stockUrgency = stock ? `只剩${stock}件！` : '库存告急！';
+  const featureTxt = feature || `${material}精工打造`;
+  const cp = getColorCopy(color, season);
+  const colorTxt = color ? `${color}` : '';
+  // 容量描述修复：不重复拼接
+  const capacityDesc = capacity
+    ? `\n\n📦 容量实测：${capacity}，5折雨伞、矿泉水、iPad随手放，出门一包搞定，完全不用担心装不下！`
+    : `\n\n📦 容量实测：日常必备的5折雨伞、水杯、手账本、手机钱包统统能放，通勤出行一包搞定！`;
+  const catMap = { c1:'皮料卖点', c2:'内里工艺', c3:'稀缺促单', c4:'对比话术', c5:'风格理念', c6:'搭配场景', c9:'互动留人', c13:'新中式美学' };
+
+  generatedScripts = [
+    // 第1节：悬念开场，先抓住注意力
+    {
+      title: `【开场·钩子】${name}悬念开场`,
+      categoryId: 'c7',
+      content: `姐妹们，今天我要拿出一只包——你们先不要问价格，先摸一下这个皮！\n\n（停顿，展示皮料）\n\n摸到了吗？这个触感——有没有感觉到那种温润？这就是${material}，很多人一辈子可能没摸过这个级别的皮料。\n\n今天这只${name}，我们做到了${price}元。先别急，我带大家从头到尾把这只包吃透，你们再决定要不要！${color ? `\n\n喜欢${colorTxt}的姐妹扣个1让我看到你！👇` : '\n\n新进来的宝宝先点关注，今天不空手！'}`,
+      note: `${name} 悬念钩子开场，先激发好奇心再讲产品`
+    },
+    // 第2节：材质体验，感官代入
+    {
+      title: `【材质体验】${name}皮料感官话术`,
+      categoryId: 'c1',
+      content: `好，正式带大家认识这只${name}！\n\n材质：${material}。${featureTxt}。\n\n我教大家一个鉴别好皮的方法——\n\n① 用手背（不是指尖）轻轻拂过皮面，好皮摸上去是"活的"，有温度，有呼吸感，不冰不硬。普通皮是"死的"，发凉发硬，那是化工鞣制的。\n\n② 轻轻捏一下包身然后松手——好皮秒回弹，不留痕。劣质皮捏完留折印，时间久了全是皱纹。\n\n③ 凑近闻一下——好皮是淡淡的皮革香气，劣质皮是刺鼻的胶水化工味。\n\n${name}三项全过，这才是真正的好皮。${capacityDesc}`,
+      note: `${name} 材质体验感官引导，让消费者在脑子里"触摸"产品`
+    },
+    // 第3节：工艺细节，建立信任
+    {
+      title: `【工艺细节】${name}做工信任话术`,
+      categoryId: 'c2',
+      content: `皮料好了，工艺才是第二道关。\n\n走线：我们用的是杜科普蜡线，一寸七针——市面上便宜包是机器平针，一寸四五针，松松的。你把两个包一起拍照放大，线条的立体感和密度高下立判，这是骗不了人的。\n\n五金：纯钢五金，不是合金镀色。合金五金三个月就开始发黄掉漆，我们的钢五金用十年拉开还是顺滑沉稳那个声音——打开拉链，听这个声音（演示），好五金就是有这种分量感。\n\n边油：手工多层打磨，边缘过渡自然，不会有爆边掉漆的问题。\n\n你把一只${price}元的${name}和外面${origPriceTxt}的同类款放在一起，懂行的人一眼就知道哪个值。`,
+      note: `${name} 工艺细节建立专业信任感`
+    },
+    // 第4节：颜色专场，场景代入
+    {
+      title: `【颜色专场】${colorTxt || name}颜色穿搭话术`,
+      categoryId: 'c5',
+      content: color
+        ? `好，现在重点说${colorTxt}！想入这个色的姐妹看过来👇\n\n${cp.intro}——这个颜色我自己太喜欢了，给大家实诚说。\n\n✦ 显肤色：${cp.skinTone}\n\n✦ 显高显瘦：${cp.height}\n\n✦ 时尚感：${cp.fashion}\n\n✦ 怎么搭：${cp.seasonal}\n\n你知道这个颜色最厉害的地方是什么吗？${cp.buyGuide}\n\n想入${colorTxt}的姐妹扣个"要"，已经下单的扣个"买了"，让我看看今天有多少姐妹有眼光！`
+        : `姐妹们，选包包的颜色是一门学问——\n\n深色系：显白、显瘦、显高级，百搭，是"永远不会出错"的选择；\n浅色系：减龄、轻盈，春夏显气质；\n暖色系：提气色，整个人精神焕发；\n冷色系：高级清冷感，适合追求低调时髦的姐妹。\n\n建议大家先想：我的衣橱是什么颜色系的？衣服颜色多就选中性色包，衣服偏单调就选彩色包做点睛之笔。\n\n喜欢哪个颜色的姐妹在评论区告诉我，我帮你分析！`,
+      note: `${name} 颜色专场+互动引导`
+    },
+    // 第5节：社会证明+价值对比，消除顾虑
+    {
+      title: `【价值对比】${name}为什么值这个价`,
+      categoryId: 'c4',
+      content: `有姐妹会问：${price}元，值吗？\n\n我给大家算一笔账——\n\n外面同工艺、同皮质的包，品牌版要${origPriceTxt}。我们为什么能做到${price}元？源头工厂直供，没有品牌溢价，没有多级代理商赚差价，省下来的全让利给你们。\n\n材质对比：${material} VS 普通合成皮革——成本相差5倍以上。普通皮用一年开始脱皮，我们这款用三年还是越用越有味道，越用越柔软。\n\n你把使用年限算进去：一只${origPriceTxt}的普通包，用一年坏了；一只${price}元的${name}，用三到五年没问题，算下来每天成本还不到一杯奶茶。\n\n已经有很多姐妹收到货都说：实物比图片好看，皮质摸上去远超预期。这才是${price}元应该有的样子！`,
+      note: `${name} 价值对比+社会证明，消除价格顾虑`
+    },
+    // 第6节：互动催单，制造紧迫感
+    {
+      title: `【互动催单】${name}紧迫促单话术`,
+      categoryId: 'c3',
+      content: `好了姐妹们，${stockUrgency}\n\n下单操作超级简单：点击屏幕下方购物车 → 选颜色 → 拍下 → 付款，30秒搞定！\n\n已经拍下的姐妹在评论区扣"买了"，让我看看今天有多少有眼光的宝宝！\n\n还在犹豫的姐妹，我最后帮你梳理一下你拿到手的东西：${material}皮料、纯钢五金、蜡线手工走线${capacity ? `、${capacity}` : ''}，${colorTxt ? `${colorTxt}配色，` : ''}到手${price}元，七天无理由退换，顺丰发货礼盒包装。\n\n不好用退给我，我来回运费承担！有这个底气，你还在等什么？\n\n${stockTxt}，按下单时间顺序发货，手慢无！`,
+      note: `${name} 互动催单，明确下单步骤+退换承诺打消顾虑`
+    },
+    // 第7节：收场感谢，留住下次
+    {
+      title: `【收场·留人】${name}结尾预告话术`,
+      categoryId: 'c11',
+      content: `今天${name}就带大家看到这里！\n\n${material}、${colorTxt ? colorTxt + '、' : ''}${price}元、${stockTxt}——喜欢的姐妹最后机会，没拍的赶紧！\n\n已经下单的宝宝收到货记得来找我，拍个开箱视频，好的坏的都欢迎跟我说，我永远都在。\n\n还没关注的姐妹点一下左上角关注，我们下次还有更多好货——下一款我提前剧透，是${material}工艺的新款，价格比今天这只还要惊喜，关注了不迷路！\n\n感谢今晚陪我到现在的每一个姐妹，你们是我最大的动力，晚安💕`,
+      note: `${name} 收场感谢+下次预告，提升回播率`
+    },
+    // 第8节：文化叙事，东方美学升华
+    {
+      title: `【东方美学】${name}文化叙事话术`,
+      categoryId: 'c13',
+      content: color
+        ? `姐妹们，今天最后给大家聊一聊这个${colorTxt}——\n\n在中国传统美学里，这样的颜色从来都不是孤立的。它有自己的温度、自己的节气、自己的故事。\n\n${cp.intro}，${cp.skinTone.replace(/^[^，,。！]+[，,]?\s*/,'')}\n\n我们做这只${name}，选色极为讲究——不是追流行，而是在几十个色板里，找那个最经得住时间的颜色。\n\n什么叫经得住时间？今年背是美的，明年背还是美的，五年后背，依然是那种越看越心动的感觉。\n\n这就是真正好的颜色：不是一眼夺目，而是越看越动人，如同君子之交淡如水，深藏不露，却回味悠长。\n\n${material}的包身，${colorTxt}的配色——这是我们送给每一位有眼光的姐妹最诚心的礼物。`
+        : `姐妹们，最后给大家说一句心里话——\n\n我们做这只${name}，一直在想一个问题：什么叫做真正的好包？\n\n不是logo大的，不是网红同款的，不是贵的。\n\n真正的好包，是有"呼吸感"的——你摸上去，它温润，像在回应你的手；你背上去，它贴合你的身体，不累不硌；你用了一年，皮质越来越有光泽，带着只属于你的使用痕迹，越用越美。\n\n中国古人讲"器以载道"——一件器物，承载的是制作者的态度。\n\n我们用${material}，手工走线，精工五金，不是为了给你看数字，是为了让你每次出门拿起它的时候，有一种"今天状态很好"的感觉。\n\n这就是我们做这只${price}元的${name}的初心。`,
+      note: `${name} 东方美学文化叙事，适合直播尾段情感升华，提升品牌气质`
+    },
+  ];
+
+  renderGenCards();
+}
+
+function saveSingleGen(i) {
+  const s = generatedScripts[i];
+  if (!s) return;
+  state.scripts.unshift({
+    id: 'g' + Date.now() + i,
+    title: s.title, categoryId: s.categoryId,
+    content: s.content, note: s.note,
+    favorite: false, createdAt: Date.now()
+  });
+  saveData();
+  renderAll();
+  showToast('✅ 已保存到资料库');
+}
+
+function saveAllGenerated() {
+  const now = Date.now();
+  generatedScripts.forEach((s, i) => {
+    state.scripts.unshift({
+      id: 'g' + now + i,
+      title: s.title, categoryId: s.categoryId,
+      content: s.content, note: s.note,
+      favorite: false, createdAt: now - i
+    });
+  });
+  saveData();
+  renderAll();
+  closeModal('genModal');
+  showToast(`✅ 已保存 ${generatedScripts.length} 条话术到资料库`);
+}
+
+function downloadScript() {
+  if (!generatedScripts || generatedScripts.length === 0) return;
+  const name = document.getElementById('genName').value.trim() || '产品';
+  const price = document.getElementById('genPrice').value.trim();
+  const material = document.getElementById('genMaterial').value.trim();
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+
+  const divider = '═'.repeat(30);
+  const thinLine = '─'.repeat(30);
+
+  let text = '';
+  text += `${divider}\n`;
+  text += `  四喜直播话术 · 主播提示卡\n`;
+  text += `${divider}\n`;
+  text += `  产品：${name}\n`;
+  if (material) text += `  材质：${material}\n`;
+  if (price)    text += `  直播价：${price} 元\n`;
+  text += `  日期：${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日\n`;
+  text += `${divider}\n\n`;
+
+  generatedScripts.forEach((s, i) => {
+    const section = s.title.match(/【(.+?)】/)?.[1] || s.title;
+    text += `【第${i+1}节】${section}\n`;
+    text += `${thinLine}\n`;
+    text += s.content + '\n\n';
+    if (i < generatedScripts.length - 1) text += `${thinLine}\n\n`;
+  });
+
+  text += `\n${divider}\n`;
+  text += `  ★ 由四喜直播话术库生成 ★\n`;
+  text += `${divider}\n`;
+
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${name}_直播话术_${dateStr}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✅ 话术已下载，可在下载文件夹查看');
+}
+
+function saveFullScript() {
+  if (!generatedScripts || generatedScripts.length === 0) return;
+  const name = document.getElementById('genName').value.trim() || '产品';
+  // 拼合所有章节为一整段话术
+  const fullContent = generatedScripts.map(s => {
+    // 从标题里提取【章节名】，如 "【开场】xxx" → "▍ 开场"
+    const section = s.title.match(/【(.+?)】/)?.[1] || s.title;
+    return `▍ ${section}\n\n${s.content}`;
+  }).join('\n\n' + '─'.repeat(20) + '\n\n');
+
+  state.scripts.unshift({
+    id: 'g' + Date.now(),
+    title: `${name} · 完整直播话术`,
+    categoryId: 'c8',
+    content: fullContent,
+    note: `智能生成 · 完整套装话术（共${generatedScripts.length}节）`,
+    favorite: false,
+    createdAt: Date.now()
+  });
+  saveData();
+  renderAll();
+  closeModal('genModal');
+  showToast(`✅ 已合并保存为完整话术`);
+}
+
+// ============ INIT ============
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    ['addModal','detailModal','catModal'].forEach(id => closeModal(id));
+  }
+});
+
+// ============ AUTH ============
+const DEFAULT_ACCOUNTS = [{ username: 'admin', password: '123456' }];
+
+function getAccounts() {
+  try {
+    const d = localStorage.getItem('liveStreamAccounts');
+    return d ? JSON.parse(d) : DEFAULT_ACCOUNTS;
+  } catch(e) { return DEFAULT_ACCOUNTS; }
+}
+
+function saveAccounts(accounts) {
+  localStorage.setItem('liveStreamAccounts', JSON.stringify(accounts));
+}
+
+function hashStr(s) {
+  // Simple hash for obfuscation (not cryptographic)
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return h.toString(36);
+}
+
+function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+
+  if (!user || !pass) { err.textContent = '请填写用户名和密码'; err.style.display='block'; return; }
+
+  const accounts = getAccounts();
+  const match = accounts.find(a => a.username === user && hashStr(a.password) === hashStr(pass));
+
+  if (match) {
+    sessionStorage.setItem('liveStreamLoggedIn', user);
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('loginUserBadge').textContent = '👤 ' + user;
+    document.getElementById('loginUserBadge').style.display = 'inline-block';
+    err.style.display = 'none';
+  } else {
+    err.textContent = '用户名或密码错误，请重试';
+    err.style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+function doLogout() {
+  if (!confirm('确定退出登录吗？')) return;
+  sessionStorage.removeItem('liveStreamLoggedIn');
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('loginUserBadge').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  setTimeout(() => document.getElementById('loginUser').focus(), 100);
+}
+
+function openPwdModal() {
+  renderAccountList();
+  document.getElementById('newAccUser').value = '';
+  document.getElementById('newAccPass').value = '';
+  // pre-fill api key if saved
+  const saved = getApiKey();
+  if (saved) document.getElementById('apiKeyInput').value = saved;
+  showModal('pwdModal');
+}
+
+function renderAccountList() {
+  const accounts = getAccounts();
+  const el = document.getElementById('accountList');
+  if (accounts.length === 0) {
+    el.innerHTML = '<div style="font-size:13px;color:#747d8c">暂无账号</div>';
+    return;
+  }
+  el.innerHTML = accounts.map((a, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:#f8f9fa;border-radius:8px;padding:8px 12px">
+      <div style="font-size:14px;color:#2f3542">👤 ${escHtml(a.username)}</div>
+      <button onclick="deleteAccount(${i})" style="font-size:12px;padding:3px 10px;border-radius:6px;border:1px solid #ffb3ba;background:#fff5f5;color:#ff4757;cursor:pointer">删除</button>
+    </div>
+  `).join('');
+}
+
+function saveAccount() {
+  const user = document.getElementById('newAccUser').value.trim();
+  const pass = document.getElementById('newAccPass').value;
+  if (!user) { showToast('⚠️ 请填写用户名'); return; }
+  if (!pass || pass.length < 4) { showToast('⚠️ 密码至少4位'); return; }
+
+  const accounts = getAccounts();
+  const idx = accounts.findIndex(a => a.username === user);
+  if (idx >= 0) {
+    accounts[idx].password = pass;
+    showToast('✅ 密码已更新');
+  } else {
+    accounts.push({ username: user, password: pass });
+    showToast('✅ 账号已添加');
+  }
+  saveAccounts(accounts);
+  renderAccountList();
+  document.getElementById('newAccUser').value = '';
+  document.getElementById('newAccPass').value = '';
+}
+
+function deleteAccount(i) {
+  const accounts = getAccounts();
+  const current = sessionStorage.getItem('liveStreamLoggedIn');
+  if (accounts[i].username === current) { showToast('⚠️ 不能删除当前登录账号'); return; }
+  if (!confirm(`确定删除账号「${accounts[i].username}」吗？`)) return;
+  accounts.splice(i, 1);
+  saveAccounts(accounts);
+  renderAccountList();
+  showToast('🗑️ 账号已删除');
+}
+
+function checkAuth() {
+  const logged = sessionStorage.getItem('liveStreamLoggedIn');
+  if (!logged) {
+    document.getElementById('loginScreen').style.display = 'flex';
+    setTimeout(() => document.getElementById('loginUser').focus(), 100);
+  } else {
+    document.getElementById('loginUserBadge').textContent = '👤 ' + logged;
+    document.getElementById('loginUserBadge').style.display = 'inline-block';
+  }
+}
+
+// ============ INIT ============
+loadData();
+renderAll();
+checkAuth();
+</script>
+</body>
+</html>
